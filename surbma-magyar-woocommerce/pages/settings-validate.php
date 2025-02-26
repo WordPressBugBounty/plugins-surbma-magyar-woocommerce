@@ -20,7 +20,8 @@ function surbma_hc_fields_validate( $input ) {
 	global $productpricehistory_statisticslinkdisplay_options;
 	global $catalogmode_productpricedisplay_options;
 
-	$options = get_option( 'surbma_hc_fields' );
+	// Get the settings array
+	global $options;
 
 	// * HUCOMMERCE START
 
@@ -42,6 +43,7 @@ function surbma_hc_fields_validate( $input ) {
 	$input['validatebillingphonefield'] = isset( $input['validatebillingphonefield'] ) && 1 == $input['validatebillingphonefield'] ? 1 : 0;
 	$input['validateshippingcityfield'] = isset( $input['validateshippingcityfield'] ) && 1 == $input['validateshippingcityfield'] ? 1 : 0;
 	$input['validateshippingaddressfield'] = isset( $input['validateshippingaddressfield'] ) && 1 == $input['validateshippingaddressfield'] ? 1 : 0;
+	$input['validatecheckoutfields-mobileonly'] = isset( $input['validatecheckoutfields-mobileonly'] ) && 1 == $input['validatecheckoutfields-mobileonly'] ? 1 : 0;
 	$input['productpricehistory-showlowestprice'] = isset( $input['productpricehistory-showlowestprice'] ) && 1 == $input['productpricehistory-showlowestprice'] ? 1 : 0;
 	$input['productpricehistory-showdiscount'] = isset( $input['productpricehistory-showdiscount'] ) && 1 == $input['productpricehistory-showdiscount'] ? 1 : 0;
 
@@ -105,6 +107,10 @@ function surbma_hc_fields_validate( $input ) {
 	$input['productsubtitle'] = isset( $input['productsubtitle'] ) && 1 == $input['productsubtitle'] ? 1 : 0;
 	$input['productsettings-removeimagezoom'] = isset( $input['productsettings-removeimagezoom'] ) && 1 == $input['productsettings-removeimagezoom'] ? 1 : 0;
 	$input['norelatedproducts'] = isset( $input['norelatedproducts'] ) && 1 == $input['norelatedproducts'] ? 1 : 0;
+	$input['translations-woocommerceapimanager'] = isset( $input['translations-woocommerceapimanager'] ) && 1 == $input['translations-woocommerceapimanager'] ? 1 : 0;
+	$input['translations-restrictcontentpro'] = isset( $input['translations-restrictcontentpro'] ) && 1 == $input['translations-restrictcontentpro'] ? 1 : 0;
+	$input['translations-woocommercememberships'] = isset( $input['translations-woocommercememberships'] ) && 1 == $input['translations-woocommercememberships'] ? 1 : 0;
+	$input['translations-woocommercesubscriptions'] = isset( $input['translations-woocommercesubscriptions'] ) && 1 == $input['translations-woocommercesubscriptions'] ? 1 : 0;
 
 	// Our select option must actually be in our array of select options
 	if ( !array_key_exists( $input['couponfieldposition'], $couponfieldposition_options ) ) {

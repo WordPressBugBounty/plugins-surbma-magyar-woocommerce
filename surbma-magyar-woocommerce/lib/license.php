@@ -12,15 +12,39 @@ defined( 'ABSPATH' ) || exit;
 */
 
 // Get the current website's domain
-$current_domain = isset( $_SERVER['HTTP_HOST'] ) ? $_SERVER['HTTP_HOST'] : parse_url( get_site_url(), PHP_URL_HOST );
+$current_domain = isset( $_SERVER['HTTP_HOST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) : wp_parse_url( get_site_url(), PHP_URL_HOST );
+
+// Extract the TLD
+$current_domain_parts = explode( '.', $current_domain );
+$current_tld = end( $current_domain_parts );
+
+// Force WooCommerce Coming Soon, if environment is not 'production'
+add_action( 'init', 'cps_hc_gems_set_woocommerce_coming_soon' );
+// Fires when the woocommerce_coming_soon option is updated with new values
+add_action( 'update_option_woocommerce_coming_soon', 'cps_hc_gems_set_woocommerce_coming_soon' );
+function cps_hc_gems_set_woocommerce_coming_soon() {
+	$current_env = wp_get_environment_type();
+	if ( 'production' !== $current_env ) {
+		update_option( 'woocommerce_coming_soon', 'yes' );
+	}
+}
+
+// Check if WooCommerce Coming Soon is enabled
+$woocommerce_coming_soon = get_option( 'woocommerce_coming_soon', 'no' );
+
+global $whitelisted;
+$whitelisted = false;
 
 // Whitelist enabled domains
-if ( ( ( defined( 'SURBMA_HC_WHITELIST' ) && false !== SURBMA_HC_WHITELIST ) && ( 'www.hucommerce.hu' == $current_domain || 'demo.hucommerce.hu' == $current_domain || 'woocommerce.local' == $current_domain ) ) || ( !defined( 'SURBMA_HC_WHITELIST' ) && ( 'www.hucommerce.hu' == $current_domain || 'demo.hucommerce.hu' == $current_domain || 'woocommerce.local' == $current_domain ) ) ) {
+if ( 'www.hucommerce.hu' === $current_domain ) {
 	$status = 'active';
 	$whitelisted = true;
+} elseif ( 'local' === $current_tld || 'dev' === $current_tld || 'yes' === $woocommerce_coming_soon ) {
+	$status = 'active';
+	$whitelisted = 'dev';
 } else {
 	// Check for manual request
-	$manual_request = isset( $_GET['hc-request'] ) ? true : false;
+	$manual_request = isset( $_GET['hc-request'] ) ? true : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 	// Prepare to check the difference between current time and last checked time
 	$license_status = get_option( 'surbma_hc_license_status', array() );
@@ -63,7 +87,7 @@ if ( ( ( defined( 'SURBMA_HC_WHITELIST' ) && false !== SURBMA_HC_WHITELIST ) && 
 }
 
 // Do the stuff if website is not whitelisted
-if ( !isset( $whitelisted ) ) :
+if ( !isset( $whitelisted ) || !$whitelisted ) :
 
 	// Create the API request URL
 	function surbma_hc_license_create_url( $request_args ) {
@@ -168,7 +192,7 @@ if ( !isset( $whitelisted ) ) :
 		}
 
 		$license_options = get_option( 'surbma_hc_license', array() );
-		$home_url = parse_url( get_option( 'home' ) );
+		$home_url = wp_parse_url( get_option( 'home' ) );
 
 		// API variables
 		$api_key = isset( $license_options['licensekey'] ) && $license_options['licensekey'] ? $license_options['licensekey'] : false;
@@ -227,8 +251,8 @@ if ( !isset( $whitelisted ) ) :
 			return;
 		}
 
-		$update_request = isset( $_GET['settings-updated'] ) && true == $_GET['settings-updated'] ? true : false;
-		$manual_request = isset( $_GET['hc-request'] ) ? $_GET['hc-request'] : false;
+		$update_request = isset( $_GET['settings-updated'] ) && true == $_GET['settings-updated'] ? true : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$manual_request = isset( $_GET['hc-request'] ) ? sanitize_text_field( wp_unslash( $_GET['hc-request'] ) ) : false; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 		// Update license status if License Management page settings are updated
 		if ( $update_request ) {
@@ -274,7 +298,7 @@ if ( !isset( $whitelisted ) ) :
 	// Fires when the surbma_hc_license option is added
 	add_action( 'add_option_surbma_hc_license', function( $name, $value ) {
 		// update_option( 'surbma_hc_license_test', $value['licensekey'] );
-		$home_url = parse_url( get_option( 'home' ) );
+		$home_url = wp_parse_url( get_option( 'home' ) );
 
 		// API variables
 		$api_key = isset( $value['licensekey'] ) && $value['licensekey'] ? $value['licensekey'] : false;
@@ -299,7 +323,7 @@ if ( !isset( $whitelisted ) ) :
 
 	// Fires when the surbma_hc_license option is updated with new values
 	add_action( 'update_option_surbma_hc_license', function( $old_value, $value ) {
-		$home_url = parse_url( get_option( 'home' ) );
+		$home_url = wp_parse_url( get_option( 'home' ) );
 
 		// API variables
 		$api_key = isset( $value['licensekey'] ) && $value['licensekey'] ? $value['licensekey'] : false;
@@ -341,6 +365,63 @@ if ( !isset( $whitelisted ) ) :
 	}, 10, 2 );
 
 endif;
+
+// Add HuCommerce DEV admin bar button
+add_action( 'admin_bar_menu', function( WP_Admin_Bar $wp_admin_bar ) {
+	global $whitelisted;
+	if ( isset( $whitelisted ) && 'dev' === $whitelisted ) {
+		$args = array(
+			'id'    => 'hucommerce-whitelisted-badge',
+			'title' => __( 'HuCommerce DEV', 'surbma-magyar-woocommerce' ),
+			'href'  => admin_url( 'admin.php?page=surbma-hucommerce-license-menu' ),
+			'meta'  => array(
+				'class' => 'hucommerce-whitelisted-status-badge',
+			),
+		);
+		$wp_admin_bar->add_node( $args );
+	}
+}, 999 );
+
+// Add CSS to HuCommerce DEV admin bar button
+add_action( 'wp_head', 'cps_hc_gems_custom_css' );
+add_action( 'admin_head', 'cps_hc_gems_custom_css' );
+function cps_hc_gems_custom_css() {
+	if ( is_user_logged_in() ) {
+		global $whitelisted;
+		if ( isset( $whitelisted ) && 'dev' === $whitelisted ) {
+?>
+<style id="wp-admin-bar-hucommerce-whitelisted-badge-css">
+#wpadminbar .quicklinks #wp-admin-bar-hucommerce-whitelisted-badge {
+	margin: 0 7px;
+	padding: 7px 0;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-hucommerce-whitelisted-badge a.ab-item {
+	background-color:rgb(255, 121, 18);
+	border-radius: 2px;
+	display: flex;
+	height: 18px;
+	padding: 0px 6px;
+	align-items: center;
+	gap: 8px;
+	color: #3c434a;
+	color: #fff;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 16px;
+}
+
+#wpadminbar .quicklinks #wp-admin-bar-hucommerce-whitelisted-badge a.ab-item:hover,
+#wpadminbar .quicklinks #wp-admin-bar-hucommerce-whitelisted-badge a.ab-item:focus {
+	background-color: #faa05a;
+	color: #fff;
+}
+</style>
+<?php
+		}
+	}
+}
 
 // If $status is not yet set (not whitelisted), set it now
 if ( !isset( $status ) ) :
@@ -387,23 +468,31 @@ if ( 'free' != $status ) {
 
 // License notices
 add_action( 'admin_notices', function() {
+	global $whitelisted;
+	if ( isset( $whitelisted ) && 'dev' === $whitelisted && ( isset( $_GET['page'] ) && 'surbma-hucommerce-license-menu' === $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		?>
+		<div class="notice notice-warning notice-alt notice-large is--dismissible">
+			<p><strong>HuCommerce DEV mód aktiválva!</strong> Az API kulcs megadásához előbb élesítened kell a weboldalt!</p>
+		</div>
+		<?php
+	}
 	// Invalid notice
-	if ( 'invalid' == SURBMA_HC_PLUGIN_LICENSE && ( !isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'surbma-hucommerce-menu' != $_GET['page'] ) ) ) {
+	if ( 'invalid' == SURBMA_HC_PLUGIN_LICENSE && ( !isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'surbma-hucommerce-menu' != $_GET['page'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		?>
 		<div class="notice notice-error notice-alt notice-large is-dismissible">
-			<a href="https://www.hucommerce.hu" target="_blank"><img src="<?php echo esc_url( SURBMA_HC_PLUGIN_URL ); ?>/assets/images/hucommerce-logo.png" alt="HuCommerce" class="alignright" style="margin: 1em;"></a>
+			<a href="https://www.hucommerce.hu" target="_blank"><img src="<?php echo esc_url( SURBMA_HC_PLUGIN_URL ); ?>/assets/images/hucommerce-logo.png" alt="HuCommerce" class="alignright" style="margin: 1em;"></a><?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
 			<h3>Érvénytelen vagy lejárt licensz kulcs a HuCommerce Pro beállításánál!</h3>
 			<p>Kérlek ellenőrizd az emailben küldött licensz kulcsot és add meg újra vagy frissítsd és aktiváld újra a HuCommerce beállításánál!
-			<br>A licensz kulcsot a <strong>"HuCommerce Pro"</strong> almenüpontban tudod megadni a következő oldalon: <a href="<?php admin_url(); ?>admin.php?page=surbma-hucommerce-menu">WooCommerce -> HuCommerce</a></p>
+			<br>A licensz kulcsot a <strong>"Licensz kezelés"</strong> almenüpontban tudod megadni a következő oldalon: <a href="<?php admin_url(); ?>admin.php?page=surbma-hucommerce-license-menu">HuCommerce -> Licensz kezelés</a></p>
 		</div>
 		<?php
 	}
 
 	// Inactive notice
-	if ( 'inactive' == SURBMA_HC_PLUGIN_LICENSE && ( !isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'surbma-hucommerce-menu' != $_GET['page'] ) ) ) {
+	if ( 'inactive' == SURBMA_HC_PLUGIN_LICENSE && ( !isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && 'surbma-hucommerce-menu' != $_GET['page'] ) ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		?>
 		<div class="notice notice-info notice-alt notice-large is-dismissible">
-			<a href="https://www.hucommerce.hu" target="_blank"><img src="<?php echo esc_url( SURBMA_HC_PLUGIN_URL ); ?>/assets/images/hucommerce-logo.png" alt="HuCommerce" class="alignright" style="margin: 1em;"></a>
+			<a href="https://www.hucommerce.hu" target="_blank"><img src="<?php echo esc_url( SURBMA_HC_PLUGIN_URL ); ?>/assets/images/hucommerce-logo.png" alt="HuCommerce" class="alignright" style="margin: 1em;"></a><?php // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage ?>
 			<h3>Még nem aktivált HuCommerce Pro licensz kulcs!</h3>
 			<p>A megadott HuCommerce Pro licensz kulcsod nincs aktiválva. A HuCommerce Pro almenüpont alatt tudod a megadott licensz kulcsot frissíteni vagy újra aktiválni.
 			<br>Amennyiben bármi probléma merül fel az újra aktiválás során vedd fel az ügyfélszolgálattal a kapcsolatot: <a href="https://www.hucommerce.hu/ugyfelszolgalat/" target="_blank">HuCommerce Ügyfélszolgálat</a></p>
