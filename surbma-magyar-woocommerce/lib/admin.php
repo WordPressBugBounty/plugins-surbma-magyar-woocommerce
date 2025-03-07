@@ -22,7 +22,7 @@ include_once( SURBMA_HC_PLUGIN_DIR . '/pages/page-modules.php');
 // include_once( SURBMA_HC_PLUGIN_DIR . '/pages/page-offers.php');
 include_once( SURBMA_HC_PLUGIN_DIR . '/pages/page-directory.php');
 // include_once( SURBMA_HC_PLUGIN_DIR . '/pages/page-news.php');
-include_once( SURBMA_HC_PLUGIN_DIR . '/pages/page-informations.php');
+include_once( SURBMA_HC_PLUGIN_DIR . '/pages/page-information.php');
 include_once( SURBMA_HC_PLUGIN_DIR . '/pages/page-license.php');
 include_once( SURBMA_HC_PLUGIN_DIR . '/pages/settings.php');
 
@@ -34,7 +34,7 @@ add_action( 'admin_menu', function() {
 	global $surbma_hc_directory_page;
 	global $surbma_hc_news_page;
 	global $surbma_hc_license_page;
-	global $surbma_hc_informations_page;
+	global $surbma_hc_information_page;
 
 	$surbma_hc_main_page = add_menu_page(
 		'HuCommerce',
@@ -95,13 +95,13 @@ add_action( 'admin_menu', function() {
 		'surbma_hc_license_page'
 	);
 
-	$surbma_hc_informations_page = add_submenu_page(
+	$surbma_hc_information_page = add_submenu_page(
 		'surbma-hucommerce-menu',
-		__( 'HuCommerce Informations', 'surbma-magyar-woocommerce' ),
-		__( 'Informations', 'surbma-magyar-woocommerce' ),
+		__( 'HuCommerce Information', 'surbma-magyar-woocommerce' ),
+		__( 'Information', 'surbma-magyar-woocommerce' ),
 		'manage_options',
-		'surbma-hucommerce-informations-menu',
-		'surbma_hc_informations_page'
+		'surbma-hucommerce-information-menu',
+		'surbma_hc_information_page'
 	);
 
 	if ( function_exists( 'wc_admin_connect_page' ) ) {
@@ -133,9 +133,9 @@ add_action( 'admin_enqueue_scripts', function( $hook ) {
 	global $surbma_hc_directory_page;
 	global $surbma_hc_news_page;
 	global $surbma_hc_license_page;
-	global $surbma_hc_informations_page;
+	global $surbma_hc_information_page;
 
-	if ( $hook == $surbma_hc_main_page || $hook == $surbma_hc_modules_page || $hook == $surbma_hc_offers_page || $hook == $surbma_hc_directory_page || $hook == $surbma_hc_news_page || $hook == $surbma_hc_license_page || $hook == $surbma_hc_informations_page ) {
+	if ( $hook == $surbma_hc_main_page || $hook == $surbma_hc_modules_page || $hook == $surbma_hc_offers_page || $hook == $surbma_hc_directory_page || $hook == $surbma_hc_news_page || $hook == $surbma_hc_license_page || $hook == $surbma_hc_information_page ) {
 		$hc_page = true;
 	} else {
 		$hc_page = false;
