@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // Add custom fields in the General tab of the Product data metabox
-add_action( 'woocommerce_product_options_general_product_data', function() {
+add_action( 'woocommerce_product_options_general_product_data', static function() {
 	// Get the $product_object if we are editing an existing Product
 	global $product_object;
 
@@ -90,7 +90,7 @@ add_action( 'woocommerce_product_options_general_product_data', function() {
 } );
 
 // Save meta data for the Product
-add_action( 'woocommerce_admin_process_product_object', function( $product ) {
+add_action( 'woocommerce_admin_process_product_object', static function( $product ) {
 	$product_prefix_value = !empty( $_POST['_hc_productpriceadditions_product_prefix'] ) ? sanitize_text_field( wp_unslash( $_POST['_hc_productpriceadditions_product_prefix'] ) ) : '';
 	$disable_product_prefix_value = !empty( $_POST['_hc_productpriceadditions_disable_product_prefix'] ) ? sanitize_text_field( wp_unslash( $_POST['_hc_productpriceadditions_disable_product_prefix'] ) ) : '';
 	$product_suffix_value = !empty( $_POST['_hc_productpriceadditions_product_suffix'] ) ? sanitize_text_field( wp_unslash( $_POST['_hc_productpriceadditions_product_suffix'] ) ) : '';
@@ -111,7 +111,7 @@ add_action( 'woocommerce_admin_process_product_object', function( $product ) {
 }, 10, 2 );
 
 // Display prefixes and suffixes
-add_filter( 'woocommerce_get_price_html', function( $price, $product ) {
+add_filter( 'woocommerce_get_price_html', static function( $price, $product ) {
 	// Don't show it on admin
 	if ( is_admin() ) {
 		return $price;
@@ -123,12 +123,12 @@ add_filter( 'woocommerce_get_price_html', function( $price, $product ) {
 	}
 
 	// Get the settings array
-	global $hc_gems_options;
+	global $cps_hc_gems_options;
 
-	$productpriceadditions_productprefixValue = isset( $hc_gems_options['productpriceadditions-product-prefix'] ) && $hc_gems_options['productpriceadditions-product-prefix'] ? $hc_gems_options['productpriceadditions-product-prefix'] : false;
-	$productpriceadditions_productsuffixValue = isset( $hc_gems_options['productpriceadditions-product-suffix'] ) && $hc_gems_options['productpriceadditions-product-suffix'] ? $hc_gems_options['productpriceadditions-product-suffix'] : false;
-	$productpriceadditions_archiveprefixValue = isset( $hc_gems_options['productpriceadditions-archive-prefix'] ) && $hc_gems_options['productpriceadditions-archive-prefix'] ? $hc_gems_options['productpriceadditions-archive-prefix'] : false;
-	$productpriceadditions_archivesuffixValue = isset( $hc_gems_options['productpriceadditions-archive-suffix'] ) && $hc_gems_options['productpriceadditions-archive-suffix'] ? $hc_gems_options['productpriceadditions-archive-suffix'] : false;
+	$productpriceadditions_productprefixValue = isset( $cps_hc_gems_options['productpriceadditions-product-prefix'] ) && $cps_hc_gems_options['productpriceadditions-product-prefix'] ? $cps_hc_gems_options['productpriceadditions-product-prefix'] : false;
+	$productpriceadditions_productsuffixValue = isset( $cps_hc_gems_options['productpriceadditions-product-suffix'] ) && $cps_hc_gems_options['productpriceadditions-product-suffix'] ? $cps_hc_gems_options['productpriceadditions-product-suffix'] : false;
+	$productpriceadditions_archiveprefixValue = isset( $cps_hc_gems_options['productpriceadditions-archive-prefix'] ) && $cps_hc_gems_options['productpriceadditions-archive-prefix'] ? $cps_hc_gems_options['productpriceadditions-archive-prefix'] : false;
+	$productpriceadditions_archivesuffixValue = isset( $cps_hc_gems_options['productpriceadditions-archive-suffix'] ) && $cps_hc_gems_options['productpriceadditions-archive-suffix'] ? $cps_hc_gems_options['productpriceadditions-archive-suffix'] : false;
 
 	// Get the parent product object if product is variable
 	if ( $product->get_parent_id() ) {

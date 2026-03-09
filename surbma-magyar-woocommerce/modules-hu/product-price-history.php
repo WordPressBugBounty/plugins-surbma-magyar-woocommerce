@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // Update _hc_product_price_history post meta
-function surbma_hc_update_product_price_history( $product_id ) {
+function cps_hc_gems_update_product_price_history( $product_id ) {
 	$product = wc_get_product( $product_id );
 
 	// Stop if we don't process a product
@@ -62,34 +62,34 @@ function surbma_hc_update_product_price_history( $product_id ) {
 }
 
 /* The problem with these methods is, that they run multiple times
-// Trigger surbma_hc_update_product_price_history when a product price changed
-add_action( 'updated_post_meta', function( $meta_id, $product_id, $meta_key, $meta_value ) {
+// Trigger cps_hc_gems_update_product_price_history when a product price changed
+add_action( 'updated_post_meta', static function( $meta_id, $product_id, $meta_key, $meta_value ) {
 	if ( '_price' == $meta_key || '_regular_price' == $meta_key ) {
-		surbma_hc_update_product_price_history( $product_id );
+		cps_hc_gems_update_product_price_history( $product_id );
 	}
 }, 10, 4 );
 
-// Trigger surbma_hc_update_product_price_history when a product price deleted
-add_action( 'deleted_post_meta', function( $meta_id, $product_id, $meta_key, $meta_value ) {
+// Trigger cps_hc_gems_update_product_price_history when a product price deleted
+add_action( 'deleted_post_meta', static function( $meta_id, $product_id, $meta_key, $meta_value ) {
 	if ( '_price' == $meta_key || '_regular_price' == $meta_key ) {
-		surbma_hc_update_product_price_history( $product_id );
+		cps_hc_gems_update_product_price_history( $product_id );
 	}
 }, 10, 4 );
 */
 
 /* The problem with this method is, that it runs 1 or 2 or 3 times, so the condition is not reliable
-// Trigger surbma_hc_update_product_price_history when a product is updated
-add_action( 'woocommerce_update_product', function( $product_id ) {
+// Trigger cps_hc_gems_update_product_price_history when a product is updated
+add_action( 'woocommerce_update_product', static function( $product_id ) {
 	// Fires at the second run to get all price data correctly
 	$times = did_action( 'woocommerce_update_product' );
 	if ( $times === 2 ) {
-		surbma_hc_update_product_price_history( $product_id );
+		cps_hc_gems_update_product_price_history( $product_id );
 	}
 }, 10, 1 );
 */
 
-// Trigger surbma_hc_update_product_price_history when a product is edited. This is only needed, if _hc_product_price_history is still not saved.
-add_action( 'current_screen', function( $current_screen ) {
+// Trigger cps_hc_gems_update_product_price_history when a product is edited. This is only needed, if _hc_product_price_history is still not saved.
+add_action( 'current_screen', static function( $current_screen ) {
 	if ( did_action( 'current_screen' ) ) {
 		return;
 	}
@@ -105,11 +105,11 @@ add_action( 'current_screen', function( $current_screen ) {
 		return;
 	}
 
-	surbma_hc_update_product_price_history( $product_id );
+	cps_hc_gems_update_product_price_history( $product_id );
 }, 10, 3 );
 
-// Trigger surbma_hc_update_product_price_history when a product is updated or created
-add_action( 'wp_insert_post', function( $product_id, $post, $update ) {
+// Trigger cps_hc_gems_update_product_price_history when a product is updated or created
+add_action( 'wp_insert_post', static function( $product_id, $post, $update ) {
 	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 		return;
 	}
@@ -122,17 +122,17 @@ add_action( 'wp_insert_post', function( $product_id, $post, $update ) {
 		return;
 	}
 
-	surbma_hc_update_product_price_history( $product_id );
+	cps_hc_gems_update_product_price_history( $product_id );
 }, 10, 3 );
 
-// Trigger surbma_hc_update_product_price_history when a variable product is updated
-add_action( 'woocommerce_save_product_variation', function( $variation_id, $i ) {
-	surbma_hc_update_product_price_history( $variation_id );
+// Trigger cps_hc_gems_update_product_price_history when a variable product is updated
+add_action( 'woocommerce_save_product_variation', static function( $variation_id, $i ) {
+	cps_hc_gems_update_product_price_history( $variation_id );
 }, 10, 2 );
 
 /*
  *
- * Trigger surbma_hc_update_product_price_history when a product price changed with WooCommerce import.
+ * Trigger cps_hc_gems_update_product_price_history when a product price changed with WooCommerce import.
  *
  * $product is a WC_Product
  * $data is an array of data pulled from the CSV
@@ -140,36 +140,36 @@ add_action( 'woocommerce_save_product_variation', function( $variation_id, $i ) 
  * Product ID: $data['id']
  *
 */
-add_action( 'woocommerce_product_import_inserted_product_object', function( $object, $data ) {
+add_action( 'woocommerce_product_import_inserted_product_object', static function( $object, $data ) {
 	if ( isset( $data['id'] ) && $data['id'] ) {
-		surbma_hc_update_product_price_history( $data['id'] );
+		cps_hc_gems_update_product_price_history( $data['id'] );
 	}
 }, 10, 2 );
 
 /*
  *
- * Trigger surbma_hc_update_product_price_history when a product price changed with WP All Import.
+ * Trigger cps_hc_gems_update_product_price_history when a product price changed with WP All Import.
  * It seems, we don't need this, as WP All Import import process triggers the normal import hooks also.
  *
 */
 /*
 include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
 if ( is_plugin_active( 'wp-all-import-pro/wp-all-import-pro.php' ) ) {
-	add_action( 'pmxi_saved_post', function( $product_id, $xml_node, $is_update ) {
+	add_action( 'pmxi_saved_post', static function( $product_id, $xml_node, $is_update ) {
 		$post_type = wp_all_import_get_import_post_type();
 		if ( 'product' === $post_type ) {
-			surbma_hc_update_product_price_history( $product_id );
+			cps_hc_gems_update_product_price_history( $product_id );
 		}
 	}, 10, 3 );
 }
 */
 
-$module_productpricehistoryValue = $hc_gems_options['module-productpricehistory'] ?? 0;
+$module_productpricehistoryValue = $cps_hc_gems_options['module-productpricehistory'] ?? 0;
 
 if ( 1 == $module_productpricehistoryValue ) :
 
 	// Add custom fields in the General tab of the Product data metabox
-	add_action( 'woocommerce_product_options_general_product_data', function() {
+	add_action( 'woocommerce_product_options_general_product_data', static function() {
 		// Get the $product_object if we are editing an existing Product
 		global $product_object;
 
@@ -194,7 +194,7 @@ if ( 1 == $module_productpricehistoryValue ) :
 		?>
 		<p class="form-field">
 			<label><?php esc_html_e( 'Price history', 'surbma-magyar-woocommerce' ); ?></label>
-			<a href="<?php echo esc_attr( SURBMA_HC_PLUGIN_URL ); ?>/modules-hu/product-price-history-display.php?product_id=<?php echo esc_attr( $product_id ); ?>" target="_blank"><?php esc_html_e( 'Show the price history of this product', 'surbma-magyar-woocommerce' ); ?></a> (<?php esc_html_e( 'Open on a new tab', 'surbma-magyar-woocommerce' ); ?>)
+			<a href="<?php echo esc_attr( CPS_HC_GEMS_URL ); ?>/modules-hu/product-price-history-display.php?product_id=<?php echo esc_attr( $product_id ); ?>" target="_blank"><?php esc_html_e( 'Show the price history of this product', 'surbma-magyar-woocommerce' ); ?></a> (<?php esc_html_e( 'Open on a new tab', 'surbma-magyar-woocommerce' ); ?>)
 		</p>
 		<?php
 
@@ -238,7 +238,7 @@ if ( 1 == $module_productpricehistoryValue ) :
 	} );
 
 	// Save meta for simple products
-	add_action( 'woocommerce_process_product_meta', function( $product_id ) {
+	add_action( 'woocommerce_process_product_meta', static function( $product_id ) {
 		// Check if nonce field exists
 		if ( !isset( $_POST['woocommerce_meta_nonce'] ) ) {
 			return;
@@ -259,13 +259,13 @@ if ( 1 == $module_productpricehistoryValue ) :
 	} );
 
 	// Add custom fields for variations
-	add_action( 'woocommerce_variation_options_pricing', function( $loop, $variation_data, $variation ) {
+	add_action( 'woocommerce_variation_options_pricing', static function( $loop, $variation_data, $variation ) {
 		// Show a link to the product price history page
 		if ( $variation && isset( $variation->ID ) ) {
 		?>
 		<p class="form-field form-field-wide form-row form-row-full">
 			<label><?php esc_html_e( 'Price history', 'surbma-magyar-woocommerce' ); ?></label>
-			<a href="<?php echo esc_attr( SURBMA_HC_PLUGIN_URL ); ?>/modules-hu/product-price-history-display.php?product_id=<?php echo esc_attr( $variation->ID ); ?>" target="_blank"><?php esc_html_e( 'Show the price history of this product', 'surbma-magyar-woocommerce' ); ?></a> (<?php esc_html_e( 'Open on a new tab', 'surbma-magyar-woocommerce' ); ?>)
+			<a href="<?php echo esc_attr( CPS_HC_GEMS_URL ); ?>/modules-hu/product-price-history-display.php?product_id=<?php echo esc_attr( $variation->ID ); ?>" target="_blank"><?php esc_html_e( 'Show the price history of this product', 'surbma-magyar-woocommerce' ); ?></a> (<?php esc_html_e( 'Open on a new tab', 'surbma-magyar-woocommerce' ); ?>)
 		</p>
 		<?php
 		}
@@ -308,7 +308,7 @@ if ( 1 == $module_productpricehistoryValue ) :
 	}, 10, 3 );
 
 	// Save meta for variable products
-	add_action( 'woocommerce_save_product_variation', function( $variation_id, $i ) {
+	add_action( 'woocommerce_save_product_variation', static function( $variation_id, $i ) {
 		// Debug: Log the POST data to error log
 		// error_log( 'POST Data: ' . print_r( $_POST, true ) );
 		// error_log( 'Variation ID: ' . $variation_id );
@@ -324,12 +324,7 @@ if ( 1 == $module_productpricehistoryValue ) :
 	}, 10, 2 );
 
 	// Product price history display
-	add_shortcode( 'hc-termekartortenet', function( $atts ) {
-		// Abort function if HuCommerce Pro is not active
-		if ( !SURBMA_HC_PREMIUM ) {
-			return;
-		}
-
+	add_shortcode( 'hc-termekartortenet', static function( $atts ) {
 		extract( shortcode_atts( array(
 			'product_id' => ''
 		), $atts ) );
@@ -345,16 +340,16 @@ if ( 1 == $module_productpricehistoryValue ) :
 		$shortcode_has_product_id = $product_id ? true : false;
 
 		// Get the settings array
-		global $hc_gems_options;
+		global $cps_hc_gems_options;
 
-		$productpricehistory_showlowestpriceValue = isset( $hc_gems_options['productpricehistory-showlowestprice'] ) && 1 == $hc_gems_options['productpricehistory-showlowestprice'] ? 1 : 0;
-		$productpricehistory_lowestpricetextValue = isset( $hc_gems_options['productpricehistory-lowestpricetext'] ) && $hc_gems_options['productpricehistory-lowestpricetext'] ? $hc_gems_options['productpricehistory-lowestpricetext'] : __( 'Our lowest price from previous term', 'surbma-magyar-woocommerce' );
-		$productpricehistory_nolowestpricetextValue = isset( $hc_gems_options['productpricehistory-nolowestpricetext'] ) && $hc_gems_options['productpricehistory-nolowestpricetext'] ? $hc_gems_options['productpricehistory-nolowestpricetext'] : false;
-		$productpricehistory_showdiscountpriceValue = isset( $hc_gems_options['productpricehistory-showdiscount'] ) && 1 == $hc_gems_options['productpricehistory-showdiscount'] ? 1 : 0;
-		$productpricehistory_discounttextValue = isset( $hc_gems_options['productpricehistory-discounttext'] ) && $hc_gems_options['productpricehistory-discounttext'] ? $hc_gems_options['productpricehistory-discounttext'] : __( 'Current discount based on the lowest price', 'surbma-magyar-woocommerce' );
-		$productpricehistory_nolowestpricediscounttextValue = isset( $hc_gems_options['productpricehistory-nolowestpricediscounttext'] ) && $hc_gems_options['productpricehistory-nolowestpricediscounttext'] ? $hc_gems_options['productpricehistory-nolowestpricediscounttext'] : __( 'Actual discount', 'surbma-magyar-woocommerce' );
-		$productpricehistory_statisticslinkdisplayValue = isset( $hc_gems_options['productpricehistory-statisticslinkdisplay'] ) ? $hc_gems_options['productpricehistory-statisticslinkdisplay'] : 'show';
-		$productpricehistory_statisticslinktextValue = isset( $hc_gems_options['productpricehistory-statisticslinktext'] ) && $hc_gems_options['productpricehistory-statisticslinktext'] ? $hc_gems_options['productpricehistory-statisticslinktext'] : __( 'Advanced statistics', 'surbma-magyar-woocommerce' );
+		$productpricehistory_showlowestpriceValue = isset( $cps_hc_gems_options['productpricehistory-showlowestprice'] ) && 1 == $cps_hc_gems_options['productpricehistory-showlowestprice'] ? 1 : 0;
+		$productpricehistory_lowestpricetextValue = isset( $cps_hc_gems_options['productpricehistory-lowestpricetext'] ) && $cps_hc_gems_options['productpricehistory-lowestpricetext'] ? $cps_hc_gems_options['productpricehistory-lowestpricetext'] : __( 'Our lowest price from previous term', 'surbma-magyar-woocommerce' );
+		$productpricehistory_nolowestpricetextValue = isset( $cps_hc_gems_options['productpricehistory-nolowestpricetext'] ) && $cps_hc_gems_options['productpricehistory-nolowestpricetext'] ? $cps_hc_gems_options['productpricehistory-nolowestpricetext'] : false;
+		$productpricehistory_showdiscountpriceValue = isset( $cps_hc_gems_options['productpricehistory-showdiscount'] ) && 1 == $cps_hc_gems_options['productpricehistory-showdiscount'] ? 1 : 0;
+		$productpricehistory_discounttextValue = isset( $cps_hc_gems_options['productpricehistory-discounttext'] ) && $cps_hc_gems_options['productpricehistory-discounttext'] ? $cps_hc_gems_options['productpricehistory-discounttext'] : __( 'Current discount based on the lowest price', 'surbma-magyar-woocommerce' );
+		$productpricehistory_nolowestpricediscounttextValue = isset( $cps_hc_gems_options['productpricehistory-nolowestpricediscounttext'] ) && $cps_hc_gems_options['productpricehistory-nolowestpricediscounttext'] ? $cps_hc_gems_options['productpricehistory-nolowestpricediscounttext'] : __( 'Actual discount', 'surbma-magyar-woocommerce' );
+		$productpricehistory_statisticslinkdisplayValue = isset( $cps_hc_gems_options['productpricehistory-statisticslinkdisplay'] ) ? $cps_hc_gems_options['productpricehistory-statisticslinkdisplay'] : 'show';
+		$productpricehistory_statisticslinktextValue = isset( $cps_hc_gems_options['productpricehistory-statisticslinktext'] ) && $cps_hc_gems_options['productpricehistory-statisticslinktext'] ? $cps_hc_gems_options['productpricehistory-statisticslinktext'] : __( 'Advanced statistics', 'surbma-magyar-woocommerce' );
 
 		// If we have $product_id, let's get the $product object
 		if ( $product_id ) {
@@ -468,7 +463,7 @@ if ( 1 == $module_productpricehistoryValue ) :
 					}
 				}
 				if ( 'hide' != $productpricehistory_statisticslinkdisplayValue ) {
-					echo '<div class="hc-product-price-history-statistics"><a href="' . esc_attr( SURBMA_HC_PLUGIN_URL ) . '/modules-hu/product-price-history-display.php?product_id=' . esc_attr( $product_id ) . '" target="_blank">' . esc_html( $productpricehistory_statisticslinktextValue ) . '</a></div>';
+					echo '<div class="hc-product-price-history-statistics"><a href="' . esc_attr( CPS_HC_GEMS_URL ) . '/modules-hu/product-price-history-display.php?product_id=' . esc_attr( $product_id ) . '" target="_blank">' . esc_html( $productpricehistory_statisticslinktextValue ) . '</a></div>';
 				}
 				echo '</div>';
 			endforeach;
@@ -484,8 +479,8 @@ if ( 1 == $module_productpricehistoryValue ) :
 	} );
 
 	// Show the notification under the Product's price for simple products
-	add_action( 'woocommerce_single_product_summary', 'surbma_hc_show_termekartortenet_single', 11 );
-	function surbma_hc_show_termekartortenet_single() {
+	add_action( 'woocommerce_single_product_summary', 'cps_hc_gems_show_termekartortenet_single', 11 );
+	function cps_hc_gems_show_termekartortenet_single() {
 		global $product;
 
 		// This function has to run only for simple & external products
@@ -497,8 +492,8 @@ if ( 1 == $module_productpricehistoryValue ) :
 	}
 
 	// Show the notification under the Product's price for variation products
-	add_action( 'woocommerce_single_variation', 'surbma_hc_show_termekartortenet_variation', 11 );
-	function surbma_hc_show_termekartortenet_variation() {
+	add_action( 'woocommerce_single_variation', 'cps_hc_gems_show_termekartortenet_variation', 11 );
+	function cps_hc_gems_show_termekartortenet_variation() {
 		global $product;
 
 		// This function has to run only for variable products
@@ -510,7 +505,7 @@ if ( 1 == $module_productpricehistoryValue ) :
 	}
 
 	// Show and hide the product price history block for variable products
-	add_action( 'woocommerce_before_variations_form', function() {
+	add_action( 'woocommerce_before_variations_form', static function() {
 		global $product;
 		?>
 		<script>
@@ -538,9 +533,27 @@ endif;
  * Overwrite iThemes Security plugin's PHP Execution settings to enable HuCommerce plugin's product-price-history-display.php file.
  * Settings -> Advanced -> System Tweaks -> PHP Execution -> Disable PHP in Plugins
 **/
+
+// Apache server config modification
 if ( !has_filter( 'itsec_filter_apache_server_config_modification' ) ) {
-	add_filter( 'itsec_filter_apache_server_config_modification', function ( $modification ) {
-		$modification = str_replace( 'RewriteRule ^wp\-content/plugins/.*\.(?:php[1-7]?|pht|phtml?|phps)\.?$ - [NC,F]', 'RewriteRule ^wp\-content/plugins/(?!surbma\-magyar\-woocommerce/modules\-hu/product\-price\-history\-display\.php).*\.(?:php[1-7]?|pht|phtml?|phps)\.?$ - [NC,F]', $modification );
+	add_filter( 'itsec_filter_apache_server_config_modification', static function ( $modification ) {
+		$modification = str_replace( "\t\tRewriteRule ^wp-content/plugins/.*\.(?:php[1-7]?|pht|phtml?|phps)\.?$ - [NC,F]\n", "\t\tRewriteRule ^wp-content/plugins/(?!surbma-magyar-woocommerce/modules-hu/product-price-history-display\.php).*\.(?:php[1-7]?|pht|phtml?|phps)\.?$ - [NC,F]\n", $modification );
+		return $modification;
+	}, PHP_INT_MAX - 5 );
+}
+
+// Nginx server config modification
+if ( !has_filter( 'itsec_filter_nginx_server_config_modification' ) ) {
+	add_filter( 'itsec_filter_nginx_server_config_modification', static function ( $modification ) {
+		$modification = str_replace( "\tlocation ~ ^/wp-content/plugins/.*\.(?:php[1-7]?|pht|phtml?|phps)$ { deny all; }\n", "\tlocation ~ ^/wp-content/plugins/(?!surbma-magyar-woocommerce/modules-hu/product-price-history-display\.php).*\.(?:php[1-7]?|pht|phtml?|phps)$ { deny all; }\n", $modification );
+		return $modification;
+	}, PHP_INT_MAX - 5 );
+}
+
+// LiteSpeed server config modification (uses same format as Apache)
+if ( !has_filter( 'itsec_filter_litespeed_server_config_modification' ) ) {
+	add_filter( 'itsec_filter_litespeed_server_config_modification', static function ( $modification ) {
+		$modification = str_replace( "\t\tRewriteRule ^wp-content/plugins/.*\.(?:php[1-7]?|pht|phtml?|phps)\.?$ - [NC,F]\n", "\t\tRewriteRule ^wp-content/plugins/(?!surbma-magyar-woocommerce/modules-hu/product-price-history-display\.php).*\.(?:php[1-7]?|pht|phtml?|phps)\.?$ - [NC,F]\n", $modification );
 		return $modification;
 	}, PHP_INT_MAX - 5 );
 }

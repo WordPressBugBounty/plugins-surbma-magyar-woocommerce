@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /*
-add_action( 'after_setup_theme', function() {
+add_action( 'after_setup_theme', static function() {
 	add_filter( 'woocommerce_is_purchasable', '__return_false', 999999 );
 	add_filter( 'woocommerce_get_price_html', '__return_false', 999999 );
 
@@ -20,18 +20,18 @@ add_action( 'after_setup_theme', function() {
 	// Single products
 	remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
 	remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-	remove_action( 'woocommerce_single_product_summary', 'surbma_hc_show_termekartortenet_single', 11 );
-	remove_action( 'woocommerce_single_variation', 'surbma_hc_show_termekartortenet_variation', 11 );
+	remove_action( 'woocommerce_single_product_summary', 'cps_hc_gems_show_termekartortenet_single', 11 );
+	remove_action( 'woocommerce_single_variation', 'cps_hc_gems_show_termekartortenet_variation', 11 );
 } );
 */
 
 add_filter( 'woocommerce_is_purchasable', '__return_false', 999999 );
 
-add_filter( 'woocommerce_get_price_html', function( $price ) {
+add_filter( 'woocommerce_get_price_html', static function( $price ) {
 	// Get the settings array
-	global $hc_gems_options;
+	global $cps_hc_gems_options;
 
-	$productpricedisplayValue = $hc_gems_options['catalogmode-productpricedisplay'] ?? 'hide_prices';
+	$productpricedisplayValue = $cps_hc_gems_options['catalogmode-productpricedisplay'] ?? 'hide_prices';
 
 	if ( 'hide_prices' == $productpricedisplayValue || ( 'show_only_single' == $productpricedisplayValue && ! is_product() ) || ( 'show_only_archive' == $productpricedisplayValue && is_product() ) ) {
 		return false;
@@ -48,10 +48,10 @@ remove_action( 'woocommerce_after_shop_loop_item', 'woocommerce_template_loop_ad
 // Single products
 remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_add_to_cart', 30 );
-remove_action( 'woocommerce_single_product_summary', 'surbma_hc_show_termekartortenet_single', 11 );
-remove_action( 'woocommerce_single_variation', 'surbma_hc_show_termekartortenet_variation', 11 );
+remove_action( 'woocommerce_single_product_summary', 'cps_hc_gems_show_termekartortenet_single', 11 );
+remove_action( 'woocommerce_single_variation', 'cps_hc_gems_show_termekartortenet_variation', 11 );
 
-add_action( 'template_redirect', function() {
+add_action( 'template_redirect', static function() {
 	if ( is_cart() || is_checkout() || is_account_page() ) {
 		wp_safe_redirect( wc_get_page_permalink( 'shop' ) );
 		exit;

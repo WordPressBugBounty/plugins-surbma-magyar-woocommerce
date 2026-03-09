@@ -1,12 +1,614 @@
 # Changelog
 
+## 3.24.2 (October 13, 2025)
+
+### Added
+
+- Add fit content width to Width component
+
+### Fixed
+
+- Fix overwriting default icons
+- Fix scrollbar gutter stays visible in Modal component even though page is not scrollable
+- Fix lazy loading YouTube/Vimeo videos in Video component in Safari
+- Fix scoping css to handle `attr()` with `type()` function
+
+## 3.24.1 (October 6, 2025)
+
+### Fixed
+
+- Fix icon overlay inverse selector in Icon component
+- Fix Sass sources
+
+## 3.24.0 (October 2, 2025)
+
+### Added
+
+- Add Overflow Fade component
+- Add card overlay style modifier to Card component
+- Add form size modifier for radio and checkbox to Form component
+- Add icon overlay modifier to Icon component
+- Add highest z-index utility class to Position component
+- Add size modifier for top and bottom paddings to Section component
+- Add `restart` option to Video component
+- Add `hover-target` option to Video component
+
+### Changed
+
+- Remove font variables in favor of using heading classes in Countdown component
+- Stretch the entire navbar height if an item's height is expanded by its content
+- Scale height of responsive images and videos based on extrinsic aspect ratio and fill content box (Chrome only yet)
+- Videos set to `preload: none` will lazy load by default now
+- Dropnav component will flip vertically, when overflowing its scroll container
+
+### Deprecated
+
+- Deprecate `automute` option in Video and Cover component, use `muted` attribute for videos, `mute=1` for YouTube and `muted=1` for Vimeo instead
+
+### Removed
+
+- Remove deprecated flag in Less variables
+
+### Fixed
+
+- Fix disable color for span elements in Subnav component
+- Fix text underline offset if text is vertical aligned to the middle in Link component
+- Fix border color if visible toggle class is applied in Visibility component
+- Fix text from wrapping onto multiple lines if elements should look like `input` or `select`
+
+## 3.23.13 (September 11, 2025)
+
+### Fixed
+
+- Fix setting focus to Modal/Offcanvas Toggle component after close scrolls page
+- Fix Slideshow/Slider components no longer autoplay if hidden
+- Fix Drop component no longer delays showing if previous active Drop component is found
+- Fix Scrollspy Nav component not detecting covering element correctly 
+
+## 3.23.12 (August 18, 2025)
+
+### Fixed
+
+- Fix Scrollspy Nav ignores links
+
+## 3.23.11 (June 25, 2025)
+
+### Fixed
+
+- Fix setting `aria-expanded` on the closest button of the Navbar Toggle Icon
+- Fix SVG component handles base64 encoded data URIs correctly
+
+## 3.23.10 (June 12, 2025)
+
+### Fixed
+
+- Fix Toggle component does not toggle if element is a link without `href` attribute
+- Fix closing modal prevents page from being scrollable in Firefox
+
+## 3.23.9 (June 3, 2025)
+
+### Changed
+
+- Add missing `aria-hidden` attribute in Icon component
+
+## 3.23.8 (June 2, 2025)
+
+### Changed
+
+- Delay showing dropdowns in Dropnav and Navbar components to allow passing with the pointer over the element
+
+### Fixed
+
+- Fix setting focus to Modal/Offcanvas Toggle component after close
+- Fix Dropnav component no longer opens its Drop components upon initial hover during page load (in Safari and Firefox)
+- Fix Scrollspy Nav component no longer highlights items whose targets do not exist
+
+## 3.23.7 (May 9, 2025)
+
+### Fixed
+
+- Fix Inverse component not being responsive for multiple target elements
+- Fix tabindex not being set for Video component in `autoplay: hover` mode
+- Fix browser lock up because of infinite component update loop
+
+## 3.23.6 (April 10, 2025)
+
+### Fixed
+
+- Revert: Fix performance when transitioning element properties in Chrome (causes regression in Safari and Firefox)
+
+## 3.23.5 (April 7, 2025)
+
+### Fixed
+
+- Fix regression with transitioning element properties not being applied
+
+## 3.23.4 (March 26, 2025)
+
+### Fixed
+
+- Fix performance when transitioning element properties in Chrome
+
+## 3.23.3 (March 17, 2025)
+
+### Fixed
+
+- Fix Grid component performance regression
+
+## 3.23.2 (March 4, 2025)
+
+### Fixed
+
+- Fix min option in Height Viewport component
+
+## 3.23.1 (February 19, 2025)
+
+### Fixed
+
+- Fix Safari 18.3 `:not(:has(...)) invalidation` issue causing hidden class not showing in Visibility component
+
+## 3.23.0 (February 4, 2025)
+
+### Added
+
+- Add `property` option to Height Viewport component
+
+### Changed
+
+- IMPORTANT: Rename `minHeight` option to `min` in Height Viewport component
+
+### Fixed
+
+- Fix Toggle component does not toggle if element is a link without `href` attribute
+
+## 3.22.4 (January 30, 2025)
+
+### Added
+
+- Add dropbar margin variable to Dropdown component
+
+### Fixed
+
+- Fix pressing arrow down key on nav item in Dropbar component opens Dropdown component 
+
+## 3.22.3 (January 24, 2025)
+
+### Fixed
+
+- Fix vertical alignment for input of type date, time and datetime-local in Safari
+
+## 3.22.2 (January 16, 2025)
+
+### Fixed
+
+- Fix missing list markers in Chrome in List component
+
+## 3.22.1 (January 16, 2025)
+
+### Changed
+
+- Apply accordion item hook also to the first item
+
+## 3.22.0 (January 9, 2025)
+
+### Added
+
+- Add `slidnav` option to disable slidenav to Lightbox component
+- Add `nav` option to show a vertical thumbnav or dotnav to Lightbox component
+- Add `counter` option to show counter with current item number and total number of items to Lightbox component
+- Add `video-autoplay: inline` option to autoplay video without controls and muted to Lightbox component
+- Add zoom behavior to images and inline videos if they are higher than the viewport to Lightbox component
+- Allow `template` option to reference a `template` element in the DOM for the lightbox layout in Lightbox component
+- Add hidden class to hide empty elements to Visibility component
+- Add inverse style for form rang to Form component
+- Add margin xsmall classes to Margin component
+- Add horizontal margin variable to subnav pill in Subnav component
+- Add text stroke class to Text component
+- Add close-circle and arrow-down-arrow-up icons
+- Add `reload` option to Countdown component
+- Add `offset-end` option to Sticky component
+
+### Changed
+
+- IMPORTANT: Remove `@lightbox-toolbar-icon-*` and `@lightbox-button-*`from Lightbox component
+- IMPORTANT: Rename `@lightbox-toolbar-*` to `@lightbox-caption-*` in Lightbox component
+- IMPORTANT: Rename `@lightbox-item-color` to `@lightbox-color` in Lightbox component
+- Set `delay-controls: 0` prevents hiding controls in Lightbox component
+- Update default lightbox template in Lightbox component
+- Change padding calculation of search box and search icon in Search component
+- Change search style medium and large to look the same as default in Search component
+
+### Fixed
+
+- Fix spaces in the markup affecting the horizontal divider margin in Breadcrumb component
+
+## 3.21.17 (January 7, 2025)
+
+### Fixed
+
+- Fix Navbar component not re-applying transparency after closing Drop component
+
+## 3.21.16 (November 22, 2024)
+
+### Fixed
+
+- Fix regression in Scroll component
+
+## 3.21.15 (November 22, 2024)
+
+### Fixed
+
+- Fix regression in SVG parsing
+
+## 3.21.14 (November 21, 2024)
+
+### Fixed
+
+- Fix child components in Dropdown components toggling transparency in Navbar component
+- Fix Navbar toggles Dropdown component when hovering with mouse on initial page load
+- Fix Scrollspy Nav component checks if targets exists before activating state
+- Fix Slideshow component list does not fill available space in Safari
+- Fix hidden class keep showing elements on hover if a link is clicked in Visibility component
+- Fix showing elements if an element has focus within in Transition component
+
+## 3.21.13 (September 26, 2024)
+
+### Fixed
+
+- Fix `scrollIntoView()` for elements with `scroll-behavior: smooth`
+- Fix Offcanvas in reveal mode unwraps itself
+
+## 3.21.12 (September 9, 2024)
+
+### Fixed
+
+- Fix Sticky component not using `position: sticky` if parent has `overflow: clip`
+- Fix Sticky component is now inactive if page can't be scrolled
+- Fix using comma separated selectors in filter controls in Filter component
+- Fix Video component does not autopause videos with autoplay set to false
+
+## 3.21.11 (August 22, 2024)
+
+### Fixed
+
+- Fix regression in updating computed values (again)
+
+## 3.21.10 (August 22, 2024)
+
+### Fixed
+
+- Fix regression in updating computed values
+
+## 3.21.9 (August 1, 2024)
+
+### Fixed
+
+- Fix Sticky component calculates wrong top offset, when animation is in progress
+- Fix rounding issue in Slider component in Firefox
+- Fix calling `query()` and `queryAll()` with empty string throws exception
+
+## 3.21.8 (July 25, 2024)
+
+### Fixed
+
+- Fix toggled hidden hover class to display elements on hover for touch devices using `tabindex` in  Visibility component
+- Fix offsetViewport calculation if window is passed as scrollElement
+
+## 3.21.7 (July 17, 2024)
+
+### Fixed
+
+- Fix offsetViewport calculation for browsers in quirks mode
+- Fix selector engine to handle spaces within parentheses correctly
+- Fix BC to component initialization not accepting plain html markup
+
+## 3.21.6 (July 1, 2024)
+
+### Fixed
+
+- Fix Sticky component not resizing correctly if parent element has `display: contents`
+- Fix Scrollspy Nav component to ignore anchor elements with `role="button"`
+- Fix Drop component causes scroll position to jump when overflowing its scroll container
+
+## 3.21.5 (June 3, 2024)
+
+### Fixed
+
+- Fix auto generating navigation in Slider and Slideshow component
+- Fix Height Viewport component offset top option
+- Fix keyboard navigation within input elements in Dropnav component dropdowns
+
+## 3.21.4 (May 24, 2024)
+
+### Added
+
+- Add `target` option to Scrollspy Nav component
+
+### Changed
+
+- Scrollspy Nav component defaults to a 10vh active top offset
+
+### Removed
+
+- Remove `overflow` option from Scrollspy Nav component
+
+### Fixed
+
+- Fix Drop component does not immediately show if current active Drop is delaying
+- Fix Scrollspy Nav falls back to document if target is not found
+
+## 3.21.3 (May 22, 2024)
+
+### Fixed
+
+- Fix regression in Slideshow component
+
+## 3.21.2 (May 22, 2024)
+
+### Fixed
+
+- Fix Slider component shows wrong slide after resizing
+- Fix regression in Slideshow component not transitioning first slide
+
+## 3.21.1 (May 21, 2024)
+
+### Fixed
+
+- Fix regression in observer handling
+
+## 3.21.0 (May 17, 2024)
+
+### Added
+
+- Add new search navbar modifier to Search component
+
+### Changed
+
+- IMPORTANT: Rename `uk-search-navbar` class to `uk-search-medium`
+- IMPORTANT: Rename `@search-navbar-*` variables to `@search-medium-*`
+- IMPORTANT: Rename `@inverse-search-navbar-*` variables to `@inverse-search-medium-*`
+- Rename old search navbar modifier to search medium in Search component
+
+### Fixed
+
+- Fix clickable search icon not being in natural ordering for sequential focus navigation
+
+## 3.20.11 (May 17, 2024)
+
+### Fixed
+
+- Fix regression in Sortable component
+
+## 3.20.10 (May 13, 2024)
+
+### Removed
+
+- Remove `removeClasses()` util function
+
+### Fixed
+
+- Fix slide transition in Slider component in Safari
+
+## 3.20.9 (May 8, 2024)
+
+### Added
+
+- Add color mode `--uk-inverse` property in all components
+
+### Fixed
+
+- Fix race condition in Slider/Slideshow component
+- Fix prompts with double quotes in Modal component
+- Fix infinite loop in Slider component
+
+## 3.20.8 (April 26, 2024)
+
+### Fixed
+
+- Fix check for `Elemenent.prototype.checkVisibility` function
+- Fix filter animations in Safari
+
+## 3.20.7 (April 24, 2024)
+
+### Fixed
+
+- fix: revert adding esm build for now (breaks resolving logic)
+
+## 3.20.6 (April 24, 2024)
+
+### Fixed
+
+- Fix missing esm dist files in package
+
+## 3.20.5 (April 24, 2024)
+
+### Fixed
+
+- Fix missing esm export for icons
+
+## 3.20.4 (April 24, 2024)
+
+### Fixed
+
+- Fix missing esm export
+
+## 3.20.3 (April 24, 2024)
+
+### Fixed
+
+- Fix regression in none browser environment
+
+## 3.20.2 (April 24, 2024)
+
+### Changed
+
+- Make gutter overridable through grid classes in Iconnav and Thumbnav components
+
+### Fixed
+
+- Fix Switcher component may show multiple items if toggled while previous animation in progress
+- Fix regression in selector engine
+
+## 3.20.1 (April 23, 2024)
+
+### Fixed
+
+- Fix regression in Inverse component
+
+## 3.20.0 (April 23, 2024)
+
+### Changed
+
+- Improve query selector performance 🏎
+- Queue updates on microtask instead of animation frame to ensure more immediate updates
+
+### Removed
+
+- Remove deprecated `closest()` and `within()` functions
+
+### Fixed
+
+- Fix lazy loading on target in Toggle component
+
+## 3.19.4 (April 9, 2024)
+
+### Added
+
+- Add `hover` mode to `autoplay` option in Video component
+
+## 3.19.2 (March 12, 2024)
+
+### Added
+
+- Add center vertical and horizontal classes to Position component
+
+### Fixed
+
+- Fix `scrollIntoView()` when target is covered by another element
+
+## 3.19.1 (March 1, 2024)
+
+### Added
+
+- Add Bluesky icon
+
+### Fixed
+
+- Fix Video component handles fullscreen mode correctly
+
+## 3.19.0 (February 29, 2024)
+
+### Added
+
+- Add breakpoint classes for flex direction, dimension and alignment
+- Add `active` option to Slider component
+
+### Changed
+
+- Remove obsolete fix for rounding issues in Width component in IE11/Edge
+
+### Fixed
+
+- Fix width expand classes mixed with other width classes of higher breakpoints in Width component
+- Fix combination of width auto and expand breakpoint classes
+- Fix logo inverse selector to work with different types of images
+- Fix Tooltips not showing in iOS
+- Fix parallax scrolling for Slideshow/Slider component with finite mode
+- Fix Slider component disables infinite scrolling prematurely
+- Fix Sass sources by renaming spin() (LESS) to adjust-hue() (Sass)
+- Fix Height Match component recalculates its heights, when a font has loaded
+
+## 3.18.3 (February 13, 2024)
+
+### Fixed
+
+- Fix dropbar offset in Navbar component
+- Fix autoplay option in Lightbox component
+- Fix height in Height Placeholder component
+- Fix Height Match component to use viewport dimensions as base again
+
+## 3.18.2 (February 9, 2024)
+
+### Fixed
+
+- Fix wrong dropbar offset in Navbar component
+- Fix conflict if multiple Dropnav components share the same container
+
+## 3.18.1 (February 7, 2024)
+
+### Changed
+
+- Close modal if contained video leaves fullscreen mode
+
+### Fixed
+
+- Fix Video component does not pause video if it enters fullscreen mode
+- Fix page scrolls while sorting in Sortable component
+- Fix horizontally overflowing elements are not scrollable in Modal component
+- Fix Height Match component applied to SVG elements
+
+### Removed
+
+- Remove Pagekit CMS icon
+
+## 3.18.0 (January 30, 2024)
+
+### Added
+
+- Add parallax options to Slider and Slideshow components
+- Add Inverse component to color content with no background depending on intersecting elements beneath
+- Add color mode for default and muted style modifiers in Section, Tile, Card and Overlay components
+- Add Height Placeholder component
+- Add size modifier to Nav component
+- Add link external and arrow up right icons
+- Add X, Mastodon, Telegram, Threads, Signal and YOOtheme icons
+
+### Changed
+
+- Replace `none` with `dark` as default for navbar, dropdown and dropbar color modes
+- Twitter icon will show X icon
+- Responsive component uses `aspect-ratio` if available
+
+### Fixed
+
+- Fix icons task on Windows
+- Fix Height Match component uses offsetHeight as base
+
+## 3.17.11 (November 21, 2023)
+
+### Fixed
+
+- Fix Tooltip component not hiding when used with delay
+
+## 3.17.10 (November 17, 2023)
+
+### Fixed
+
+- Fix Tooltip component initialized programmatically
+- Fix Tooltip component not hiding on blur
+
+## 3.17.9 (November 16, 2023)
+
+### Changed
+
+- Improve Tooltip performance
+
+### Deprecated
+
+- Deprecate `closest()` and `within()` functions
+
+### Fixed
+
+- Fix `scrollIntoView()` function scrolls to wrong position
+- Fix Drop and Modal based components remain open when anchor click targets element within
+
 ## 3.17.8 (November 2, 2023)
 
 ### Fixed
 
 - Fix build
 
-## 3.17.7
+## 3.17.7 (November 2, 2023)
 
 ### Added
 
@@ -26,8 +628,7 @@
 
 ### Deprecated
 
-- Deprecate `isInView()` function
-- Deprecate `intersectRect()` function
+- Deprecate `isInView()` and `intersectRect()` functions
 - Deprecate `target-offset` option in Sticky component
 
 ### Changed
@@ -72,14 +673,14 @@
 - Add modes `pack` (default) and `next` to Grid component's `masonry` option
 - Add `parallax-start`, `parallax-end`, `parallax-justify` option to Grid component
 - Add `close-on-scroll` option to Drop and Dropdown component
-- Add transparent Navbar gets its color modifier from underlying section 
+- Add transparent Navbar gets its color modifier from underlying section
 - Add support for `<td>` and `<tr>` elements to `fragment()` function
 - Add 3XL size modifier to Heading component
 - Add support for a CSS Selector in `offsetTop` option in Height Viewport component
 
 ### Change
 
-- Scroll component scrolls beneath elements covering its target 
+- Scroll component scrolls beneath elements covering its target
 - The `closest()` function no longer accepts an array of elements
 - Reset fieldset min-width
 
@@ -88,7 +689,7 @@
 ### Fixed
 
 - Fix Height Viewport component not observing viewport changes with `expand: true`
-- Fix passing a `vh` unit to option `scale` relates to element's height in Parallax component 
+- Fix passing a `vh` unit to option `scale` relates to element's height in Parallax component
 
 ## 3.16.26 (August 28, 2023)
 
@@ -104,7 +705,7 @@
 
 ### Fixed
 
-- Fix Toggle in hover mode does not trigger when scrolling in FireFox
+- Fix Toggle in hover mode does not trigger when scrolling in Firefox
 - Fix Parallax component stop parsing
 
 ## 3.16.24 (August 1, 2023)
@@ -127,7 +728,7 @@
 
 ### Fixed
 
-- Fix existing notification container has to be visible before appending notification 
+- Fix existing notification container has to be visible before appending notification
 
 ## 3.16.21 (June 13, 2023)
 
@@ -203,7 +804,7 @@
 - Fix using `rgb` and `rgba` values in color stops in Parallax component
 - Fix setting `will-change` css property in Parallax component for camelCased props
 - Fix Slider removes `tabindex` from focusable elements in slides
-- Fix class `uk-svg` gets added to `<svg>` element only in Svg component 
+- Fix class `uk-svg` gets added to `<svg>` element only in Svg component
 
 ## 3.16.13 (March 28, 2023)
 
@@ -432,7 +1033,7 @@
 
 ### Changed
 
-- Add `will-change` css property to Parallax elements 
+- Add `will-change` css property to Parallax elements
 
 ### Fixed
 
@@ -454,7 +1055,7 @@
 - Fix Scroll and Scrollspy Nav components handle same site links only
 - Fix Drop positioning within not scrollable viewport
 - Fix overscroll behavior in Dropbar
-- Fix conversion of viewport height units with `toPx()` on mobile devices 
+- Fix conversion of viewport height units with `toPx()` on mobile devices
 
 ## 3.15.14 (November 21, 2022)
 
@@ -542,7 +1143,6 @@
 
 - Fix check for selectable Text in Slider drag
 - Fix reactivity in Switcher component
-
 
 ## 3.15.5 (August 24, 2022)
 
@@ -2162,7 +2762,6 @@
 - Allow for special characters in URI hash in Scroll Component
 - Height Match also sets a `height` in IE
 - Slideshow sets `min-height` instead of `height`
-
 
 ## 3.0.0 rc 16 (September 12, 2018)
 

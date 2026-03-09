@@ -8,27 +8,27 @@
 defined( 'ABSPATH' ) || exit;
 
 // jQuery Mask Plugin: https://igorescobar.github.io/jQuery-Mask-Plugin/
-add_action( 'wp_enqueue_scripts', function() {
+add_action( 'wp_enqueue_scripts', static function() {
 	if ( is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
-		wp_enqueue_script( 'surbma_hc_jquery_mask', SURBMA_HC_PLUGIN_URL . '/assets/js/jquery.mask.min.js', array( 'jquery' ), '1.14.16', true );
+		wp_enqueue_script( 'surbma_hc_jquery_mask', CPS_HC_GEMS_URL . '/assets/js/jquery.mask.min.js', array( 'jquery' ), '1.14.16', true );
 	}
 } );
 
-add_action( 'wp_footer', function() {
+add_action( 'wp_footer', static function() {
 	// Make sure, we are on the right page
 	if ( !is_checkout() && !is_wc_endpoint_url( 'edit-address' ) ) {
 		return;
 	}
 
 	// Get the settings array
-	global $hc_gems_options;
+	global $cps_hc_gems_options;
 
 	// Get the settings
-	$maskcheckoutfieldsplaceholderValue = $hc_gems_options['maskcheckoutfieldsplaceholder'] ?? 0;
-	$maskbillingtaxfieldValue = $hc_gems_options['maskbillingtaxfield'] ?? 0;
-	$maskbillingpostcodefieldValue = $hc_gems_options['maskbillingpostcodefield'] ?? 0;
-	$maskbillingphonefieldValue = $hc_gems_options['maskbillingphonefield'] ?? 0;
-	$maskshippingpostcodefieldValue = $hc_gems_options['maskshippingpostcodefield'] ?? 0;
+	$maskcheckoutfieldsplaceholderValue = $cps_hc_gems_options['maskcheckoutfieldsplaceholder'] ?? 0;
+	$maskbillingtaxfieldValue = $cps_hc_gems_options['maskbillingtaxfield'] ?? 0;
+	$maskbillingpostcodefieldValue = $cps_hc_gems_options['maskbillingpostcodefield'] ?? 0;
+	$maskbillingphonefieldValue = $cps_hc_gems_options['maskbillingphonefield'] ?? 0;
+	$maskshippingpostcodefieldValue = $cps_hc_gems_options['maskshippingpostcodefield'] ?? 0;
 	?>
 <script id="cps-hc-wcgems-mask-checkout-fields">
 jQuery(document).ready(function($){

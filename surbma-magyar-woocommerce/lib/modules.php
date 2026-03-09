@@ -3,138 +3,445 @@
 // Prevent direct access to the plugin
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'init', function() {
+/**
+ * Get the modules configuration array
+ *
+ * This is the single source of truth for all module definitions.
+ * Contains both loading configuration and UI properties for admin display.
+ *
+ * @return array The modules configuration array
+ */
+function cps_hc_gems_get_modules_config() {
+	return [
+		// Free HU modules
+		'hu-format-fix' => [
+			'option_key' => 'huformatfix',
+			'type' => 'free_hu',
+			'directory' => 'modules-hu',
+			'title' => __( 'Fixes for Hungarian language', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Fixes the name formats in Hungarian. Changes the order of Last name and First name.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['other'],
+			'doc_slug' => 'magyar-formatum-javitasok',
+		],
+		'no-county' => [
+			'option_key' => 'nocounty',
+			'type' => 'free_hu',
+			'directory' => 'modules-hu',
+			'title' => __( 'Hide County field if Country is Hungary', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Using County for Hungarian addresses is very uncommon in Hungary.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'conversion'],
+			'doc_slug' => 'megye-mezo-elrejtese-magyar-cim-eseten',
+		],
+		'autofill-city' => [
+			'option_key' => 'autofillcity',
+			'type' => 'free_hu',
+			'directory' => 'modules-hu',
+			'title' => __( 'Autofill City after Postcode is given', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'On the Checkout page the City field be automatically filled, when Postcode is entered by the customer.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'conversion'],
+			'doc_slug' => 'varos-automatikus-kitoltese-az-iranyitoszam-alapjan',
+		],
+		'translations-hu' => [
+			'option_key' => 'translations',
+			'type' => 'free_hu',
+			'directory' => 'modules-hu',
+			'file' => 'translations.php',
+			'frontend_only' => true,
+			'title' => __( 'Hungarian translation fixes', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Temporary fixes for Hungarian translations, till the official translation doesn\'t include or missing some strings.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['other'],
+			'doc_slug' => 'forditasi-hianyossagok-javitasa',
+		],
+
+		// Pro HU modules
+		'product-price-history' => [
+			'option_key' => 'module-productpricehistory',
+			'type' => 'pro_hu',
+			'directory' => 'modules-hu',
+			'force_enable' => true,
+			'title' => __( 'Product price history', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Saves all Product price changes and can display the lowest price from the previous term. This is a Hungarian legal requirement to protect customers rights.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['product', 'conversion', 'legal'],
+			'doc_slug' => 'termek-ar-tortenet',
+		],
+
+		// Legacy HU modules
+		'mask-checkout-fields' => [
+			'option_key' => 'maskcheckoutfields',
+			'type' => 'legacy_hu',
+			'directory' => 'modules-hu',
+			'title' => __( 'Check field formats (Masking)', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Masking these fields: Billing VAT number, Billing Postcode, Billing Phone, Shipping Postcode', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'conversion'],
+			'doc_slug' => 'mezok-formatumanak-ellenorzese-maszkolas',
+		],
+		'validate-checkout-fields' => [
+			'option_key' => 'validatecheckoutfields',
+			'type' => 'legacy_hu',
+			'directory' => 'modules-hu',
+			'file' => 'validate-checkout-fields.php',
+			'title' => __( 'Check field values', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Checking these fields: Billing VAT number, Billing Postcode, Billing Phone, Shipping Postcode', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'conversion'],
+			'doc_slug' => 'mezok-ertekenek-ellenorzese',
+		],
+
+		// Free modules
+		'translations' => [
+			'option_key' => 'module-translations',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Translations for premium plugins & themes', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Adds translations for hundreds of the most popular premium plugins & themes. Supported softwares added regularly.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['other'],
+			'doc_slug' => 'forditasok',
+		],
+		'tax-number' => [
+			'option_key' => 'taxnumber',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Tax number field', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Additional Tax field for Company details at Checkout.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'legal'],
+			'doc_slug' => 'adoszam-megjelenitese',
+		],
+		'checkout' => [
+			'option_key' => 'module-checkout',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Checkout page customizations', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Extra fields and other customizations on the Checkout page.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'conversion'],
+			'doc_slug' => 'penztar-oldal-modositasok',
+		],
+		'coupon' => [
+			'option_key' => 'module-coupon',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Coupon field customizations', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Useful settings for the Coupon field on the Checkout page.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout'],
+			'doc_slug' => 'kupon-mezo-modositasok',
+		],
+		'plus-minus-buttons' => [
+			'option_key' => 'plusminus',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Plus/minus quantity buttons', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Shows plus/minus quantity buttons for products.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['product', 'cart'],
+			'doc_slug' => 'plusz-minusz-mennyisegi-gombok',
+		],
+		'update-cart' => [
+			'option_key' => 'updatecart',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Automatic Cart update', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'It will automatically update the cart, when customer changes the quantity on the Cart page.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['cart'],
+			'doc_slug' => 'kosar-automatikus-frissitese-darabszam-modositas-utan',
+		],
+		'redirect-cart' => [
+			'option_key' => 'module-redirectcart',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Redirect Cart page to Checkout page', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'It will redirect the Cart page to Checkout page, so visitors can finish the purchase faster.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['cart', 'checkout', 'conversion'],
+			'doc_slug' => 'kosar-atiranyitasa-a-penztar-oldalra',
+		],
+		'one-product-in-cart' => [
+			'option_key' => 'module-oneproductincart',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'One product per purchase', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'It will allow only one product in the cart. If cart has a product already, it will be replaced by the new product.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['product', 'checkout'],
+			'doc_slug' => 'egy-termek-vasarlasonkent',
+		],
+		'custom-addtocart-button' => [
+			'option_key' => 'module-custom-addtocart-button',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Custom Add To Cart Button', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Customize the Add to cart buttons for your webhop.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['product', 'conversion'],
+			'doc_slug' => 'egyedi-kosarba-teszem-gombok',
+		],
+		'return-to-shop' => [
+			'option_key' => 'returntoshop',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Continue shopping buttons', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'A Continue shopping button on Cart and/or Checkout pages, that will bring customer to Shop page.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['cart', 'checkout'],
+			'doc_slug' => 'vasarlas-folytatasa-gombok',
+		],
+		'login-registration-redirect' => [
+			'option_key' => 'loginregistrationredirect',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Login and registration redirection', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Set custom landing pages after login and/or registration.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['other'],
+			'doc_slug' => 'belepes-es-regisztracio-utani-atiranyitas',
+		],
+		'hide-shipping-methods' => [
+			'option_key' => 'module-hideshippingmethods',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Hide shipping methods', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'It will hide all shipping methods, except free shipping, local pickup and other pickup points, when free shipping is available for customers.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['cart', 'checkout', 'conversion'],
+			'doc_slug' => 'szallitasi-modok-elrejtese',
+		],
+		'product-settings' => [
+			'option_key' => 'module-productsettings',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Product customizations', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Extra fields and other customizations for Products.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['product', 'conversion'],
+			'doc_slug' => 'termek-modositasok',
+		],
+		'smtp' => [
+			'option_key' => 'module-smtp',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'SMTP service', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Send emails from a 3rd party SMTP service, instead of using webserver\'s mail() function.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['other'],
+			'doc_slug' => 'smtp-szolgaltatas',
+		],
+		'catalog-mode' => [
+			'option_key' => 'module-catalogmode',
+			'type' => 'free',
+			'directory' => 'modules',
+			'title' => __( 'Catalog mode', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Disables all functions regarding purchasing products. Cart, Checkout and Account pages will be redirected to Shop page.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['product', 'other'],
+			'doc_slug' => 'katalogus-mod',
+			'version_added' => '3.5.0',
+		],
+
+		// Pro modules
+		'empty-cart-button' => [
+			'option_key' => 'module-emptycartbutton',
+			'type' => 'pro',
+			'directory' => 'modules',
+			'title' => __( 'Empty Cart button', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'It will display buttons, that can empty the entire Cart with one click. You can also add a custom link to your navigation with a special parameter, so it is possible to have an Empty Cart link in your menu. Read more about this option in our Documentation.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['cart', 'checkout'],
+			'doc_slug' => 'kosar-uritese-gomb',
+		],
+		'product-price-additions' => [
+			'option_key' => 'module-productpriceadditions',
+			'type' => 'pro',
+			'directory' => 'modules',
+			'title' => __( 'Product price additions', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Set a default prefix or suffix for your prices. You can use this feature to give a unit of measure for your product prices or give a general information, that is specific for your webshop and your products. With the above settings you can give your default, global prefix and suffix, but you can customize these fields per product also. Even, you can remove it, when you edit your products.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['product', 'conversion', 'legal'],
+			'doc_slug' => 'termek-ar-kiegeszitesek',
+		],
+		'limit-payment-methods' => [
+			'option_key' => 'module-limitpaymentmethods',
+			'type' => 'pro',
+			'directory' => 'modules',
+			'title' => __( 'Limit Payment Methods', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Disable any Payment Methods for a particular user. The disabled Payment Method will not be shown to the Customer on the Checkout page.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'payments'],
+			'doc_slug' => 'fizetesi-modok-korlatozasa',
+			'version_added' => '3.5.0',
+		],
+
+		// Legacy modules
+		'free-shipping-notice' => [
+			'option_key' => 'freeshippingnotice',
+			'type' => 'legacy',
+			'directory' => 'modules',
+			'title' => __( 'Free shipping notification', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'A notification on the Cart page to let customer know, how much total purchase is missing to get free shipping.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['cart', 'conversion'],
+			'doc_slug' => 'ingyenes-szallitas-ertesites',
+		],
+		'legal-checkout' => [
+			'option_key' => 'legalcheckout',
+			'type' => 'legacy',
+			'directory' => 'modules',
+			'title' => __( 'Legal compliance (GDPR, CCPA, ePrivacy)', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Custom Terms & Conditions and Privacy Policy checkboxes on Checkout page.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['checkout', 'conversion', 'legal'],
+			'doc_slug' => 'jogi-megfeleles',
+		],
+		'global-info' => [
+			'option_key' => 'module-globalinfo',
+			'type' => 'legacy',
+			'directory' => 'modules',
+			'title' => __( 'Global Information', 'surbma-magyar-woocommerce' ),
+			'description' => __( 'Use these fields for your global information and show them with shortcodes. Your email will be safe from bots and your phone number will be active to call you with one tap on mobiles. Local data will be semantic for search engines.', 'surbma-magyar-woocommerce' ),
+			'tags' => ['other'],
+			'doc_slug' => 'globalis-adatok',
+		],
+	];
+}
+
+/**
+ * Determine which modules should show the "New" badge
+ *
+ * Finds all modules with the highest version_added value and returns their keys.
+ * Modules without version_added property never receive the badge.
+ *
+ * @param array $modules The modules array
+ * @return array Array of module keys that should show "New" badge
+ */
+function cps_hc_gems_get_new_module_keys( $modules ) {
+	$versions = [];
+
+	// Collect all version_added values
+	foreach ( $modules as $key => $module ) {
+		if ( isset( $module['version_added'] ) && ! empty( $module['version_added'] ) ) {
+			$versions[ $key ] = $module['version_added'];
+		}
+	}
+
+	if ( empty( $versions ) ) {
+		return [];
+	}
+
+	// Find the highest version
+	$highest_version = '0.0.0';
+	foreach ( $versions as $version ) {
+		if ( version_compare( $version, $highest_version, '>' ) ) {
+			$highest_version = $version;
+		}
+	}
+
+	// Return keys of modules with the highest version
+	$new_modules = [];
+	foreach ( $versions as $key => $version ) {
+		if ( version_compare( $version, $highest_version, '==' ) ) {
+			$new_modules[] = $key;
+		}
+	}
+
+	return $new_modules;
+}
+
+/**
+ * Sort modules for display: PRO first, then Free
+ *
+ * PRO types include: pro, pro_hu, legacy, legacy_hu
+ * Free types include: free, free_hu
+ *
+ * @param array $modules The modules array
+ * @return array Sorted modules array with PRO modules first
+ */
+function cps_hc_gems_sort_modules_for_display( $modules ) {
+	$pro_types = ['pro', 'pro_hu', 'legacy', 'legacy_hu'];
+
+	$pro_modules = [];
+	$free_modules = [];
+
+	foreach ( $modules as $key => $module ) {
+		if ( in_array( $module['type'], $pro_types, true ) ) {
+			$pro_modules[ $key ] = $module;
+		} else {
+			$free_modules[ $key ] = $module;
+		}
+	}
+
+	return array_merge( $pro_modules, $free_modules );
+}
+
+/**
+ * Get tag translations for module card display
+ *
+ * @return array Associative array of tag => translated label
+ */
+function cps_hc_gems_get_tag_translations() {
+	return [
+		'product' => __( 'Product', 'surbma-magyar-woocommerce' ),
+		'cart' => __( 'Cart', 'surbma-magyar-woocommerce' ),
+		'checkout' => __( 'Checkout', 'surbma-magyar-woocommerce' ),
+		'payments' => __( 'Payments', 'surbma-magyar-woocommerce' ),
+		'legal' => __( 'Legal', 'surbma-magyar-woocommerce' ),
+		'conversion' => __( 'Conversion', 'surbma-magyar-woocommerce' ),
+		'other' => __( 'Other', 'surbma-magyar-woocommerce' ),
+	];
+}
+
+/**
+ * Check if a module type is considered "PRO" for licensing purposes
+ *
+ * @param string $type The module type
+ * @return bool True if PRO type, false if Free type
+ */
+function cps_hc_gems_is_pro_module_type( $type ) {
+	return in_array( $type, ['pro', 'pro_hu', 'legacy', 'legacy_hu'], true );
+}
+
+/**
+ * Check if a module type is considered "Free" for licensing purposes
+ *
+ * @param string $type The module type
+ * @return bool True if Free type, false otherwise
+ */
+function cps_hc_gems_is_free_module_type( $type ) {
+	return in_array( $type, ['free', 'free_hu'], true );
+}
+
+// Load modules on init
+add_action( 'init', static function() {
 	// Get the settings array
-	global $hc_gems_options;
-	// * HUCOMMERCE START
+	global $cps_hc_gems_options;
 
-	// Free HU modules
-	$module_huformatfixValue = $hc_gems_options['huformatfix'] ?? 0;
-	$module_nocountyValue = $hc_gems_options['nocounty'] ?? 0;
-	$module_autofillcityValue = $hc_gems_options['autofillcity'] ?? 0;
-	$module_translationsValue = $hc_gems_options['translations'] ?? 0;
+	// Get modules configuration
+	$modules = cps_hc_gems_get_modules_config();
 
-	// New Pro HU modules
-	$module_productpricehistoryValue = $hc_gems_options['module-productpricehistory'] ?? 0;
-	// Force Product Price History module to load to save data for everyone
-	$module_productpricehistoryValue = 1;
+	// Loop through modules and load them
+	foreach ( $modules as $module_key => $module_config ) {
+		// Determine the module value based on type and special conditions
+		$module_value = 0;
 
-	// Legacy Pro HU modules
-	$module_maskcheckoutfieldsValue = SURBMA_HC_PREMIUM || !isset( $hc_gems_options['brandnewuser'] ) || ( $hc_gems_options['legacyuser'] ?? 0 ) == 1 ? ( $hc_gems_options['maskcheckoutfields'] ?? 0 ) : 0;
-	$module_validatecheckoutfieldsValue = SURBMA_HC_PREMIUM || !isset( $hc_gems_options['brandnewuser'] ) || ( $hc_gems_options['legacyuser'] ?? 0 ) == 1 ? ( $hc_gems_options['validatecheckoutfields'] ?? 0 ) : 0;
+		// Handle force_enable first
+		if ( isset( $module_config['force_enable'] ) && $module_config['force_enable'] ) {
+			$module_value = 1;
+		} else {
+			// Get value based on module type
+			switch ( $module_config['type'] ) {
+				case 'free_hu':
+				case 'free':
+					// Free modules: get from options directly
+					$module_value = $cps_hc_gems_options[ $module_config['option_key'] ] ?? 0;
+					break;
 
-	if ( 1 == $module_huformatfixValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules-hu/hu-format-fix.php';
-	}
-	if ( 1 == $module_nocountyValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules-hu/no-county.php';
-	}
-	if ( 1 == $module_autofillcityValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules-hu/autofill-city.php';
-	}
-	if ( 1 == $module_maskcheckoutfieldsValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules-hu/mask-checkout-fields.php';
-	}
-	if ( 1 == $module_validatecheckoutfieldsValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules-hu/vaildate-checkout-fields.php';
-	}
-	if ( 1 == $module_productpricehistoryValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules-hu/product-price-history.php';
-	}
-	if ( 1 == $module_translationsValue && !is_admin() ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules-hu/translations.php';
-	}
+				case 'pro_hu':
+				case 'pro':
+					$module_value = $cps_hc_gems_options[ $module_config['option_key'] ] ?? 0;
+					break;
 
-	// * HUCOMMERCE END
+				case 'legacy_hu':
+				case 'legacy':
+					$module_value = $cps_hc_gems_options[ $module_config['option_key'] ] ?? 0;
+					break;
+			}
+		}
 
-	// Free modules
-	$module_taxnumberValue = $hc_gems_options['taxnumber'] ?? 0;
-	$module_checkoutValue = $hc_gems_options['module-checkout'] ?? 0;
-	$module_couponValue = $hc_gems_options['module-coupon'] ?? 0;
-	$module_plusminusValue = $hc_gems_options['plusminus'] ?? 0;
-	$module_updatecartValue = $hc_gems_options['updatecart'] ?? 0;
-	$module_redirectcartValue = $hc_gems_options['module-redirectcart'] ?? 0;
-	$module_oneproductincartValue = $hc_gems_options['module-oneproductincart'] ?? 0;
-	$module_custom_addtocart_buttonValue = $hc_gems_options['module-custom-addtocart-button'] ?? 0;
-	$module_returntoshopValue = $hc_gems_options['returntoshop'] ?? 0;
-	$module_loginregistrationredirectValue = $hc_gems_options['loginregistrationredirect'] ?? 0;
-	$module_hideshippingmethods = $hc_gems_options['module-hideshippingmethods'] ?? 0;
-	$module_productsettingsValue = $hc_gems_options['module-productsettings'] ?? 0;
-	$module_smtpValue = $hc_gems_options['module-smtp'] ?? 0;
-	$module_catalogmodeValue = $hc_gems_options['module-catalogmode'] ?? 0;
+		// Load module if value is 1
+		if ( 1 == $module_value ) {
+			// Check frontend_only condition
+			if ( isset( $module_config['frontend_only'] ) && $module_config['frontend_only'] ) {
+				if ( is_admin() ) {
+					continue;
+				}
+			}
 
-	// New Pro modules
-	$module_emptycartbuttonValue = SURBMA_HC_PREMIUM ? ( $hc_gems_options['module-emptycartbutton'] ?? 0 ) : 0;
-	$module_productpriceadditionsValue = SURBMA_HC_PREMIUM ? ( $hc_gems_options['module-productpriceadditions'] ?? 0 ) : 0;
-	$module_limitpaymentmethodsValue = SURBMA_HC_PREMIUM ? ( $hc_gems_options['module-limitpaymentmethods'] ?? 0 ) : 0;
-	$module_translationsValue = SURBMA_HC_PREMIUM ? ( $hc_gems_options['module-translations'] ?? 0 ) : 0;
+			// Determine file path
+			$file_name = isset( $module_config['file'] ) ? $module_config['file'] : $module_key . '.php';
+			$file_path = CPS_HC_GEMS_DIR . '/' . $module_config['directory'] . '/' . $file_name;
 
-	// Legacy Pro modules
-	$module_freeshippingnoticeValue = SURBMA_HC_PREMIUM || !isset( $hc_gems_options['brandnewuser'] ) || ( $hc_gems_options['legacyuser'] ?? 0 ) == 1 ? ( $hc_gems_options['freeshippingnotice'] ?? 0 ) : 0;
-	$module_legalcheckoutValue = SURBMA_HC_PREMIUM || !isset( $hc_gems_options['brandnewuser'] ) || ( $hc_gems_options['legacyuser'] ?? 0 ) == 1 ? ( $hc_gems_options['legalcheckout'] ?? 0 ) : 0;
-	$module_globalinfoValue = SURBMA_HC_PREMIUM || !isset( $hc_gems_options['brandnewuser'] ) || ( $hc_gems_options['legacyuser'] ?? 0 ) == 1 ? ( $hc_gems_options['module-globalinfo'] ?? 0 ) : 0;
-
-	if ( 1 == $module_taxnumberValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/tax-number.php';
-	}
-	if ( 1 == $module_checkoutValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/checkout.php';
-	}
-	if ( 1 == $module_couponValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/coupon.php';
-	}
-	if ( 1 == $module_plusminusValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/plus-minus-buttons.php';
-	}
-	if ( 1 == $module_updatecartValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/update-cart.php';
-	}
-	if ( 1 == $module_redirectcartValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/redirect-cart.php';
-	}
-	if ( 1 == $module_emptycartbuttonValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/empty-cart-button.php';
-	}
-	if ( 1 == $module_oneproductincartValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/one-product-in-cart.php';
-	}
-	if ( 1 == $module_custom_addtocart_buttonValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/custom-addtocart-button.php';
-	}
-	if ( 1 == $module_returntoshopValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/return-to-shop.php';
-	}
-	if ( 1 == $module_loginregistrationredirectValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/login-registration-redirect.php';
-	}
-	if ( 1 == $module_freeshippingnoticeValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/free-shipping-notice.php';
-	}
-	if ( 1 == $module_hideshippingmethods ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/hide-shipping-methods.php';
-	}
-	if ( 1 == $module_legalcheckoutValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/legal-checkout.php';
-	}
-	if ( 1 == $module_productsettingsValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/product-settings.php';
-	}
-	if ( 1 == $module_limitpaymentmethodsValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/limit-payment-methods.php';
-	}
-	if ( 1 == $module_globalinfoValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/global-info.php';
-	}
-	if ( 1 == $module_smtpValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/smtp.php';
-	}
-	if ( 1 == $module_productpriceadditionsValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/product-price-additions.php';
-	}
-	if ( 1 == $module_catalogmodeValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/catalog-mode.php';
-	}
-	if ( 1 == $module_translationsValue ) {
-		include_once SURBMA_HC_PLUGIN_DIR . '/modules/translations.php';
+			// Include the module file
+			include_once $file_path;
+		}
 	}
 } );

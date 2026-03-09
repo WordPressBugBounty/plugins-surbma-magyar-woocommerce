@@ -7,11 +7,11 @@
 // Prevent direct access to the plugin
 defined( 'ABSPATH' ) || exit;
 
-add_filter( 'woocommerce_login_redirect', function( $redirect, $user ) {
+add_filter( 'woocommerce_login_redirect', static function( $redirect, $user ) {
 	// Get the settings array
-	global $hc_gems_options;
+	global $cps_hc_gems_options;
 
-	$loginredirecturlValue = $hc_gems_options['loginredirecturl'] ?? wc_get_page_permalink( 'shop' );
+	$loginredirecturlValue = $cps_hc_gems_options['loginredirecturl'] ?? wc_get_page_permalink( 'shop' );
 
 	$redirect_page_id = url_to_postid( $redirect );
 	$checkout_page_id = wc_get_page_id( 'checkout' );
@@ -27,11 +27,11 @@ add_filter( 'woocommerce_login_redirect', function( $redirect, $user ) {
 	}
 }, 10, 2 );
 
-add_filter( 'woocommerce_registration_redirect', function( $var ) {
+add_filter( 'woocommerce_registration_redirect', static function( $var ) {
 	// Get the settings array
-	global $hc_gems_options;
+	global $cps_hc_gems_options;
 
-	$registrationredirecturlValue = $hc_gems_options['registrationredirecturl'] ?? wc_get_page_permalink( 'shop' );
+	$registrationredirecturlValue = $cps_hc_gems_options['registrationredirecturl'] ?? wc_get_page_permalink( 'shop' );
 
 	if ( '' == $registrationredirecturlValue ) {
 		return $var;

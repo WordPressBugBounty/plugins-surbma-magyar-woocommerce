@@ -3,37 +3,37 @@
 // Prevent direct access to the plugin
 defined( 'ABSPATH' ) || exit;
 
-// Set the HuCommerce settings array globally
-add_action( 'init', function() {
-	global $hc_gems_options;
-	$hc_gems_options = get_option( 'surbma_hc_fields', array() );
-	if ( !is_array( $hc_gems_options ) ) {
-		$hc_gems_options = array();
-	}
-}, 0 );
-
 // CPS SDK
 if ( !function_exists( 'cps' ) ) {
 	function cps() {
 		// Include CPS SDK.
-		require_once SURBMA_HC_PLUGIN_DIR . '/cps-sdk/start.php';
+		require_once CPS_HC_GEMS_DIR . '/cps-sdk/start.php';
 	}
 
 	// Init CPS.
 	cps();
 }
 
-// Include files.
-// * HUCOMMERCE START
-include_once SURBMA_HC_PLUGIN_DIR . '/lib/license.php';
-// * HUCOMMERCE END
-include_once SURBMA_HC_PLUGIN_DIR . '/lib/modules.php';
+// Set the HuCommerce settings array globally
+add_action( 'init', static function() {
+	global $cps_hc_gems_options;
+	$cps_hc_gems_options = get_option( 'surbma_hc_fields', array() );
+	if ( !is_array( $cps_hc_gems_options ) ) {
+		$cps_hc_gems_options = array();
+	}
+}, 0 );
+
+// Include files
+include_once CPS_HC_GEMS_DIR . '/lib/modules.php';
+include_once CPS_HC_GEMS_DIR . '/lib/helpers.php';
 if ( is_admin() ) {
-	include_once SURBMA_HC_PLUGIN_DIR . '/lib/admin.php';
+	include_once CPS_HC_GEMS_DIR . '/lib/admin.php';
+	include_once CPS_HC_GEMS_DIR . '/lib/settings.php';
+	include_once CPS_HC_GEMS_DIR . '/lib/pages.php';
 }
 
-// Create a check for WooCommerce version. Used for deprecated functions for older WooCommerce versions.
-function surbma_hc_woocommerce_version_check( $version ) {
+// Create a check for WooCommerce version. Used for deprecated functions for older WooCommerce versions
+function cps_hc_gems_woocommerce_version_check( $version ) {
 	if ( class_exists( 'WooCommerce' ) ) {
 		global $woocommerce;
 		if ( version_compare( $woocommerce->version, $version, '>=' ) ) {
@@ -44,14 +44,14 @@ function surbma_hc_woocommerce_version_check( $version ) {
 }
 
 // Add plugin WooCommerce templates if exist
-add_filter( 'woocommerce_locate_template', function( $template, $template_name, $template_path ) {
+add_filter( 'woocommerce_locate_template', static function( $template, $template_name, $template_path ) {
 	global $woocommerce;
 	$_template = $template;
 
 	if ( !$template_path ) {
 		$template_path = $woocommerce->template_url;
 	}
-		$plugin_path = SURBMA_HC_PLUGIN_DIR . '/woocommerce/';
+		$plugin_path = CPS_HC_GEMS_DIR . '/woocommerce/';
 
 	// Look within passed path within the theme – this is priority
 	$template = locate_template(
