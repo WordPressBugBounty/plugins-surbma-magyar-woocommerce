@@ -1,11 +1,14 @@
 <?php
 
+/**
+ * Module: Continue shopping buttons
+ */
+
 // Prevent direct access to the plugin
 defined( 'ABSPATH' ) || exit;
 
-$options = get_option( 'surbma_hc_fields' );
-$returntoshopcartpositionValue = isset( $options['returntoshopcartposition'] ) ? $options['returntoshopcartposition'] : 'cartactions';
-$returntoshopcheckoutpositionValue = isset( $options['returntoshopcheckoutposition'] ) ? $options['returntoshopcheckoutposition'] : 'nocheckout';
+$returntoshopcartpositionValue = $cps_hc_gems_options['returntoshopcartposition'] ?? 'cartactions';
+$returntoshopcheckoutpositionValue = $cps_hc_gems_options['returntoshopcheckoutposition'] ?? 'nocheckout';
 
 $continueshoppingmessageHook = '';
 $continueshoppingmessagePriority = 10;
@@ -13,38 +16,49 @@ $continueshoppingmessagePriority = 10;
 $continueshoppingbuttonHook = '';
 $continueshoppingbuttonPriority = 10;
 
-if ( 'beforecarttable' == $returntoshopcartpositionValue ) {
-	$continueshoppingmessageHook = 'woocommerce_before_cart_table';
-}
-if ( 'aftercarttable' == $returntoshopcartpositionValue ) {
-	$continueshoppingmessageHook = 'woocommerce_after_cart_table';
-}
-if ( 'cartactions' == $returntoshopcartpositionValue ) {
-	$continueshoppingbuttonHook = 'woocommerce_cart_actions';
-}
-if ( 'proceedtocheckout' == $returntoshopcartpositionValue ) {
-	$continueshoppingbuttonHook = 'woocommerce_proceed_to_checkout';
-	$continueshoppingbuttonPriority = 999;
-}
-
-if ( 'beforecheckoutform' == $returntoshopcheckoutpositionValue ) {
-	$continueshoppingmessageHook = 'woocommerce_before_checkout_form';
-	$continueshoppingmessagePriority = 0;
-}
-if ( 'aftercheckoutform' == $returntoshopcheckoutpositionValue ) {
-	$continueshoppingmessageHook = 'woocommerce_after_checkout_form';
+switch ( $returntoshopcartpositionValue ) {
+	case 'beforecarttable':
+		$continueshoppingmessageHook = 'woocommerce_before_cart_table';
+		break;
+		
+	case 'aftercarttable':
+		$continueshoppingmessageHook = 'woocommerce_after_cart_table';
+		break;
+		
+	case 'cartactions':
+		$continueshoppingbuttonHook = 'woocommerce_cart_actions';
+		break;
+		
+	case 'proceedtocheckout':
+		$continueshoppingbuttonHook = 'woocommerce_proceed_to_checkout';
+		$continueshoppingbuttonPriority = 999;
+		break;
 }
 
-add_action( $continueshoppingmessageHook, function() {
-	$options = get_option( 'surbma_hc_fields' );
-	$returntoshopmessageValue = isset( $options['returntoshopmessage'] ) ? $options['returntoshopmessage'] : __( 'Would you like to continue shopping?', 'surbma-magyar-woocommerce' );
+switch ( $returntoshopcheckoutpositionValue ) {
+	case 'beforecheckoutform':
+		$continueshoppingmessageHook = 'woocommerce_before_checkout_form';
+		$continueshoppingmessagePriority = 0;
+		break;
+		
+	case 'aftercheckoutform':
+		$continueshoppingmessageHook = 'woocommerce_after_checkout_form';
+		break;
+}
+
+add_action( $continueshoppingmessageHook, static function() {
+	// Get the settings array
+	global $cps_hc_gems_options;
+
+	$returntoshopmessageValue = $cps_hc_gems_options['returntoshopmessage'] ?? __( 'Would you like to continue shopping?', 'surbma-magyar-woocommerce' );
+
 	echo '<div class="woocommerce-message returntoshop">';
-	echo esc_html( $returntoshopmessageValue ) . ' <a href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '" class="button wc-forward">' . esc_html__( 'Return to shop', 'woocommerce' ) . '</a>';
+	echo esc_html( $returntoshopmessageValue ) . ' <a href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '" class="button wc-forward">' . esc_html__( 'Return to shop', 'woocommerce' ) . '</a>'; // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 	echo '</div>';
 }, $continueshoppingmessagePriority );
 
-add_action( $continueshoppingbuttonHook, function() {
+add_action( $continueshoppingbuttonHook, static function() {
 	echo '<a class="button wc-backward returntoshop" href="' . esc_url( apply_filters( 'woocommerce_return_to_shop_redirect', wc_get_page_permalink( 'shop' ) ) ) . '">';
-	echo esc_html__( 'Return to shop', 'woocommerce' );
+	echo esc_html__( 'Return to shop', 'woocommerce' ); // phpcs:ignore WordPress.WP.I18n.TextDomainMismatch
 	echo '</a>';
 }, $continueshoppingbuttonPriority );

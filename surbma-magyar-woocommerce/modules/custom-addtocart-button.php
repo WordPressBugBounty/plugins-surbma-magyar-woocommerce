@@ -1,32 +1,40 @@
 <?php
 
-add_filter( 'woocommerce_product_add_to_cart_text' , 'cps_hc_wcgems_custom_addtocart_button', 10, 1 );
-add_filter( 'woocommerce_product_single_add_to_cart_text' , 'cps_hc_wcgems_custom_addtocart_button', 10, 1 );
-add_filter( 'woocommerce_booking_single_add_to_cart_text' , 'cps_hc_wcgems_custom_addtocart_button', 10, 1 );
-function cps_hc_wcgems_custom_addtocart_button( $text ) {
-	$options = get_option( 'surbma_hc_fields' );
-	global $product;
+/**
+ * Module: Custom Add To Cart Button
+ */
 
+// Prevent direct access to the plugin
+defined( 'ABSPATH' ) || exit;
+
+add_filter( 'woocommerce_product_add_to_cart_text' , 'cps_hc_gems_custom_addtocart_button', 10, 1 );
+add_filter( 'woocommerce_product_single_add_to_cart_text' , 'cps_hc_gems_custom_addtocart_button', 10, 1 );
+add_filter( 'woocommerce_booking_single_add_to_cart_text' , 'cps_hc_gems_custom_addtocart_button', 10, 1 );
+function cps_hc_gems_custom_addtocart_button( $text ) {
+	global $product;
 	if ( !isset( $product ) || !is_object( $product ) ) {
 		return $text;
 	}
 
 	$product_type = $product->get_type();
 
-	$custom_addtocart_button_single_simpleValue = isset( $options['custom-addtocart-button-single-simple'] ) && $options['custom-addtocart-button-single-simple'] ? $options['custom-addtocart-button-single-simple'] : $text;
-	$custom_addtocart_button_single_groupedValue = isset( $options['custom-addtocart-button-single-grouped'] ) && $options['custom-addtocart-button-single-grouped'] ? $options['custom-addtocart-button-single-grouped'] : $text;
-	$custom_addtocart_button_single_externalValue = isset( $options['custom-addtocart-button-single-external'] ) && $options['custom-addtocart-button-single-external'] ? $options['custom-addtocart-button-single-external'] : $text;
-	$custom_addtocart_button_single_variableValue = isset( $options['custom-addtocart-button-single-variable'] ) && $options['custom-addtocart-button-single-variable'] ? $options['custom-addtocart-button-single-variable'] : $text;
-	$custom_addtocart_button_single_subscriptionValue = isset( $options['custom-addtocart-button-single-subscription'] ) && $options['custom-addtocart-button-single-subscription'] ? $options['custom-addtocart-button-single-subscription'] : $text;
-	$custom_addtocart_button_single_variablesubscriptionValue = isset( $options['custom-addtocart-button-single-variable-subscription'] ) && $options['custom-addtocart-button-single-variable-subscription'] ? $options['custom-addtocart-button-single-variable-subscription'] : $text;
-	$custom_addtocart_button_single_bookingValue = isset( $options['custom-addtocart-button-single-booking'] ) && $options['custom-addtocart-button-single-booking'] ? $options['custom-addtocart-button-single-booking'] : $text;
-	$custom_addtocart_button_archive_simpleValue = isset( $options['custom-addtocart-button-archive-simple'] ) && $options['custom-addtocart-button-archive-simple'] ? $options['custom-addtocart-button-archive-simple'] : $custom_addtocart_button_single_simpleValue;
-	$custom_addtocart_button_archive_groupedValue = isset( $options['custom-addtocart-button-archive-grouped'] ) && $options['custom-addtocart-button-archive-grouped'] ? $options['custom-addtocart-button-archive-grouped'] : $custom_addtocart_button_single_groupedValue;
-	$custom_addtocart_button_archive_externalValue = isset( $options['custom-addtocart-button-archive-external'] ) && $options['custom-addtocart-button-archive-external'] ? $options['custom-addtocart-button-archive-external'] : $custom_addtocart_button_single_externalValue;
-	$custom_addtocart_button_archive_variableValue = isset( $options['custom-addtocart-button-archive-variable'] ) && $options['custom-addtocart-button-archive-variable'] ? $options['custom-addtocart-button-archive-variable'] : $custom_addtocart_button_single_variableValue;
-	$custom_addtocart_button_archive_subscriptionValue = isset( $options['custom-addtocart-button-archive-subscription'] ) && $options['custom-addtocart-button-archive-subscription'] ? $options['custom-addtocart-button-archive-subscription'] : $custom_addtocart_button_single_subscriptionValue;
-	$custom_addtocart_button_archive_variablesubscriptionValue = isset( $options['custom-addtocart-button-archive-variable-subscription'] ) && $options['custom-addtocart-button-archive-variable-subscription'] ? $options['custom-addtocart-button-archive-variable-subscription'] : $custom_addtocart_button_single_variablesubscriptionValue;
-	$custom_addtocart_button_archive_bookingValue = isset( $options['custom-addtocart-button-archive-booking'] ) && $options['custom-addtocart-button-archive-booking'] ? $options['custom-addtocart-button-archive-booking'] : $custom_addtocart_button_single_bookingValue;
+	// Get the settings array
+	global $cps_hc_gems_options;
+
+	$custom_addtocart_button_single_simpleValue = isset( $cps_hc_gems_options['custom-addtocart-button-single-simple'] ) && $cps_hc_gems_options['custom-addtocart-button-single-simple'] ? $cps_hc_gems_options['custom-addtocart-button-single-simple'] : $text;
+	$custom_addtocart_button_single_groupedValue = isset( $cps_hc_gems_options['custom-addtocart-button-single-grouped'] ) && $cps_hc_gems_options['custom-addtocart-button-single-grouped'] ? $cps_hc_gems_options['custom-addtocart-button-single-grouped'] : $text;
+	$custom_addtocart_button_single_externalValue = isset( $cps_hc_gems_options['custom-addtocart-button-single-external'] ) && $cps_hc_gems_options['custom-addtocart-button-single-external'] ? $cps_hc_gems_options['custom-addtocart-button-single-external'] : $text;
+	$custom_addtocart_button_single_variableValue = isset( $cps_hc_gems_options['custom-addtocart-button-single-variable'] ) && $cps_hc_gems_options['custom-addtocart-button-single-variable'] ? $cps_hc_gems_options['custom-addtocart-button-single-variable'] : $text;
+	$custom_addtocart_button_single_subscriptionValue = isset( $cps_hc_gems_options['custom-addtocart-button-single-subscription'] ) && $cps_hc_gems_options['custom-addtocart-button-single-subscription'] ? $cps_hc_gems_options['custom-addtocart-button-single-subscription'] : $text;
+	$custom_addtocart_button_single_variablesubscriptionValue = isset( $cps_hc_gems_options['custom-addtocart-button-single-variable-subscription'] ) && $cps_hc_gems_options['custom-addtocart-button-single-variable-subscription'] ? $cps_hc_gems_options['custom-addtocart-button-single-variable-subscription'] : $text;
+	$custom_addtocart_button_single_bookingValue = isset( $cps_hc_gems_options['custom-addtocart-button-single-booking'] ) && $cps_hc_gems_options['custom-addtocart-button-single-booking'] ? $cps_hc_gems_options['custom-addtocart-button-single-booking'] : $text;
+	$custom_addtocart_button_archive_simpleValue = isset( $cps_hc_gems_options['custom-addtocart-button-archive-simple'] ) && $cps_hc_gems_options['custom-addtocart-button-archive-simple'] ? $cps_hc_gems_options['custom-addtocart-button-archive-simple'] : $custom_addtocart_button_single_simpleValue;
+	$custom_addtocart_button_archive_groupedValue = isset( $cps_hc_gems_options['custom-addtocart-button-archive-grouped'] ) && $cps_hc_gems_options['custom-addtocart-button-archive-grouped'] ? $cps_hc_gems_options['custom-addtocart-button-archive-grouped'] : $custom_addtocart_button_single_groupedValue;
+	$custom_addtocart_button_archive_externalValue = isset( $cps_hc_gems_options['custom-addtocart-button-archive-external'] ) && $cps_hc_gems_options['custom-addtocart-button-archive-external'] ? $cps_hc_gems_options['custom-addtocart-button-archive-external'] : $custom_addtocart_button_single_externalValue;
+	$custom_addtocart_button_archive_variableValue = isset( $cps_hc_gems_options['custom-addtocart-button-archive-variable'] ) && $cps_hc_gems_options['custom-addtocart-button-archive-variable'] ? $cps_hc_gems_options['custom-addtocart-button-archive-variable'] : $custom_addtocart_button_single_variableValue;
+	$custom_addtocart_button_archive_subscriptionValue = isset( $cps_hc_gems_options['custom-addtocart-button-archive-subscription'] ) && $cps_hc_gems_options['custom-addtocart-button-archive-subscription'] ? $cps_hc_gems_options['custom-addtocart-button-archive-subscription'] : $custom_addtocart_button_single_subscriptionValue;
+	$custom_addtocart_button_archive_variablesubscriptionValue = isset( $cps_hc_gems_options['custom-addtocart-button-archive-variable-subscription'] ) && $cps_hc_gems_options['custom-addtocart-button-archive-variable-subscription'] ? $cps_hc_gems_options['custom-addtocart-button-archive-variable-subscription'] : $custom_addtocart_button_single_variablesubscriptionValue;
+	$custom_addtocart_button_archive_bookingValue = isset( $cps_hc_gems_options['custom-addtocart-button-archive-booking'] ) && $cps_hc_gems_options['custom-addtocart-button-archive-booking'] ? $cps_hc_gems_options['custom-addtocart-button-archive-booking'] : $custom_addtocart_button_single_bookingValue;
 
 	if ( is_product() ) { // Single product pages
 

@@ -1,25 +1,36 @@
 <?php
 
+/**
+ * Module: Check field formats (Masking)
+ */
+
 // Prevent direct access to the plugin
 defined( 'ABSPATH' ) || exit;
 
 // jQuery Mask Plugin: https://igorescobar.github.io/jQuery-Mask-Plugin/
-add_action( 'wp_enqueue_scripts', function() {
-	if ( is_checkout() ) {
-		wp_enqueue_script( 'surbma_hc_jquery_mask', SURBMA_HC_PLUGIN_URL . '/assets/js/jquery.mask.js', array( 'jquery' ), SURBMA_HC_PLUGIN_VERSION_NUMBER, true );
+add_action( 'wp_enqueue_scripts', static function() {
+	if ( is_checkout() || is_wc_endpoint_url( 'edit-address' ) ) {
+		wp_enqueue_script( 'surbma_hc_jquery_mask', CPS_HC_GEMS_URL . '/assets/js/jquery.mask.min.js', array( 'jquery' ), '1.14.16', true );
 	}
 } );
 
-add_action( 'wp_enqueue_scripts', function() {
-	$options = get_option( 'surbma_hc_fields' );
-	$maskcheckoutfieldsplaceholderValue = isset( $options['maskcheckoutfieldsplaceholder'] ) ? $options['maskcheckoutfieldsplaceholder'] : 0;
-	$maskbillingtaxfieldValue = isset( $options['maskbillingtaxfield'] ) ? $options['maskbillingtaxfield'] : 0;
-	$maskbillingpostcodefieldValue = isset( $options['maskbillingpostcodefield'] ) ? $options['maskbillingpostcodefield'] : 0;
-	$maskbillingphonefieldValue = isset( $options['maskbillingphonefield'] ) ? $options['maskbillingphonefield'] : 0;
-	$maskshippingpostcodefieldValue = isset( $options['maskshippingpostcodefield'] ) ? $options['maskshippingpostcodefield'] : 0;
-	if ( is_checkout() ) {
-		ob_start();
-		?>
+add_action( 'wp_footer', static function() {
+	// Make sure, we are on the right page
+	if ( !is_checkout() && !is_wc_endpoint_url( 'edit-address' ) ) {
+		return;
+	}
+
+	// Get the settings array
+	global $cps_hc_gems_options;
+
+	// Get the settings
+	$maskcheckoutfieldsplaceholderValue = $cps_hc_gems_options['maskcheckoutfieldsplaceholder'] ?? 0;
+	$maskbillingtaxfieldValue = $cps_hc_gems_options['maskbillingtaxfield'] ?? 0;
+	$maskbillingpostcodefieldValue = $cps_hc_gems_options['maskbillingpostcodefield'] ?? 0;
+	$maskbillingphonefieldValue = $cps_hc_gems_options['maskbillingphonefield'] ?? 0;
+	$maskshippingpostcodefieldValue = $cps_hc_gems_options['maskshippingpostcodefield'] ?? 0;
+	?>
+<script id="cps-hc-wcgems-mask-checkout-fields">
 jQuery(document).ready(function($){
 	// Mask the Billing fields
 	function HCmaskcheckoutbillingfields(){
@@ -179,10 +190,6 @@ jQuery(document).ready(function($){
 	}).keyup();
 	*/
 });
+</script>
 <?php
-		$script = ob_get_contents();
-		ob_end_clean();
-
-		wp_add_inline_script( 'cps-jquery-fix', $script );
-	}
 } );

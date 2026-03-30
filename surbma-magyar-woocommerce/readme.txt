@@ -1,420 +1,241 @@
-=== HuCommerce | Hungarian WooCommerce Extensions ===
-Contributors: Surbma, xnagyg
-Tags: woocommerce, hungarian, hungary, checkout, webshop
+=== HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz ===
+Contributors: Surbma, CherryPickStudios, xnagyg
+Tags: woocommerce, magyar, magyarország, webáruház, hungarian
 Requires at least: 5.3
-Tested up to: 6.6
-Stable tag: 2026.2.0
-Requires PHP: 7.0
-License: GPLv3 or later
-License URI: http://www.gnu.org/licenses/gpl-3.0.html
+Tested up to: 7.0
+Stable tag: 2026.2.1
+Requires PHP: 7.4
+License: GPL-3.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Useful fixes and enhancements for Hungarian WooCommerce webshops.
+Hasznos javítások és kiegészítések a magyar WooCommerce webáruházakhoz.
 
 == Description ==
 
-> Useful fixes and enhancements for Hungarian WooCommerce webshops.
+A HuCommerce bővítmény hasznos funkciókat és javításokat ad a magyar WooCommerce webáruházakhoz. A legtöbb fontos beállítást egyetlen bővítménnyel kezelheted.
 
-WooCommerce is the world's most popular eCommerce platform — and increasingly the top choice in Hungary too. However, WooCommerce's default behavior doesn't always meet Hungarian legal, cultural, or formatting requirements. This plugin bridges that gap by providing ready-made, configurable solutions for Hungarian store owners — no coding required.
+A bővítmény több mint 10000 webáruházban van telepítve és folyamatosan fejlesztjük. Az ingyenes verzió számos hasznos és jogilag szükséges funkciót tartalmaz, többek között a vezetéknév-keresztnév sorrend kezelését és az adószám mező hozzáadását.
 
-Features are continuously expanded based on community feedback.
+**❗ Hasznos linkek:**
 
-#### HuCommerce Facebook Support Group
+- [Bővebben a HuCommerce Pro bővítményről →](https://www.hucommerce.hu/bovitmenyek/hucommerce/)
+- [Bővebben a HuCommerce modulokról →](https://www.hucommerce.hu/modulok/)
+- [HuCommerce tudásbázis →](https://www.hucommerce.hu/tudasbazis/)
 
-Join the official HuCommerce Facebook support group to ask questions, share ideas, and connect with the community: [HuCommerce Facebook Group](https://www.facebook.com/groups/HuCommerce.hu/)
+**🛟 Ügyfélszolgálat és támogatás:**
 
-### HuCommerce Start (Free)
+- [WordPress.org fórum](https://wordpress.org/support/plugin/surbma-magyar-woocommerce/)
+- [HuCommerce Facebook csoport →](https://www.facebook.com/groups/HuCommerce.hu/)
+- A HuCommerce Pro ügyfelek számára email és live chat csatornákon is biztosítjuk az ügyfélszolgálati ügyek intézését és a támogatást a bővítményhez.
 
-The choice of more than 9,000 Hungarian webshop owners. A must-have collection of essential fixes and enhancements for every Hungarian WooCommerce store.
+### ❤️ HuCommerce (ingyenes)
 
-[Learn more about HuCommerce Start →](https://www.hucommerce.hu/bovitmenyek/hucommerce/)
+Hasznos funkciók a magyar WooCommerce webáruházakhoz.
 
-**HuCommerce Start features:**
+**HuCommerce ingyenes funkciói:**
 
-- Hungarian name order (last name first) on the checkout — compatible with WooCommerce 4.4+
-- Tax number field on checkout (shown only when a company name is entered; required and saved to the order and user profile)
-- Hide the State/County field (irrelevant in Hungary, but can be re-enabled if needed)
-- Checkout field format validation (tax number, ZIP code, phone number — with per-field toggle)
-- Automatic city fill based on ZIP code
-- Translation fixes for WooCommerce and popular themes (Divi, Storefront)
-- Basic community support
+- Vezetéknév és keresztnév rendbetétele (WooCommerce 4.4 verzió fölött is)
+- Adószám bekérése vásárlásnál
+- Megye mező elrejtése
+- Város automatikus kitöltése az irányítószám alapján
+- Pénztár oldal módosítások
+- Kupon mező módosítások
+- Plusz/minusz mennyiségi gombok a termékekhez
+- Automatikus frissítés a Kosár oldalon
+- Egy termék vásárlásonként
+- Kosár átirányítása a Pénztár oldalra
+- Vásárlás folytatása gomb megjelenítése a Kosár és/vagy a Pénztár oldalakon
+- Belépés és regisztráció utáni átirányítás
+- Szállítási módok elrejtése
+- Egyedi “Kosárba teszem” gombok
+- Termék extra beállítások
+- SMTP szolgáltatás beállítása
+- Katalógus mód
+- Fordítási hiányosságok javítása
+- Fordítások prémium bővítményekhez és sablonokhoz
+- WPML és Polylang kompatibilitás
+- Alap ügyfélszolgálat és támogatás
+- További funkciók hamarosan…
 
-### HuCommerce Pro (Premium)
+### ⭐ HuCommerce Pro (fizetős)
 
-The extended edition of HuCommerce with additional features and priority support. Your purchase supports ongoing development.
+A HuCommerce Pro verzió további funkciókkal bővíti a bővítményt.
 
-[Learn more about HuCommerce Pro →](https://www.hucommerce.hu/bovitmenyek/hucommerce/)
+**HuCommerce Pro további funkciói:**
 
-> [Subscribe to the HuCommerce newsletter](https://www.hucommerce.hu/hc/hirlevel-feliratkozas/) and receive a 5,000 HUF coupon for HuCommerce Pro.
-
-**HuCommerce Pro features:**
-
-Everything in HuCommerce Start, plus:
-
-- **Legal compliance** — Add active consent checkboxes for Terms & Conditions and Privacy Policy; store acceptance records (including IP, date, and order data); add legal text above/below the Place Order button; Privacy Policy acceptance on the registration form
-- **Product Price History** *(Beta)* — Comply with EU consumer protection regulations (Omnibus Directive) by recording and displaying the lowest price in the 30 days before a discount; chart and table view per product; customizable front-end text
-- **Checkout page layout** — Conditional display of company billing fields (toggle with a checkbox); side-by-side fields on desktop (company name + tax number, ZIP + city, phone + email); reorder fields; hide Country and Order Notes fields
-- **Coupon field modifications** — Reposition, hide, or always show the coupon field on the checkout page
-- **Quantity +/- buttons** — Add plus/minus buttons to quantity fields on product and cart pages (supports Storefront, Divi, Avada and more)
-- **Auto cart update** — Cart totals update automatically when quantity changes, no need to click "Update Cart"
-- **Single product per order** — Limit each order to one product (useful for services or bookings)
-- **Redirect cart to checkout** — Automatically redirect the Cart page to the Checkout page to streamline the purchase flow
-- **Continue Shopping button** — Display a "Continue Shopping" button on Cart and/or Checkout pages with configurable position and custom text
-- **Login & registration redirect** — Redirect users to a custom URL after login or registration (separate URLs for each; ignored on the Checkout page)
-- **Free shipping progress notification** — Show remaining amount for free shipping on product listing pages, Cart, and Checkout; customizable and translatable text
-- **Hide shipping methods** — Hide irrelevant shipping methods when free shipping is available (with option to keep click-and-collect and "point" methods)
-- **Custom "Add to Cart" button text** — Define different button labels per product type (simple, subscription, membership, etc.)
-- **Product extra settings** — Additional per-product options: add-to-cart button on listing pages, custom subtitle (SEO-friendly), disable related products, configure products-per-page and columns, upsell/related product counts
-- **Global data (shortcodes)** — Store reusable data (company name, address, phone, email, etc.) and display them anywhere with shortcodes; phone and email are rendered as clickable, bot-protected links
-- **SMTP configuration** — Connect your store's outgoing email to an external SMTP provider (e.g., Mailgun, SendGrid)
-- **Premium plugin & theme translations** — Hungarian translations for popular WooCommerce add-ons and themes that lack quality official translations
-- **WPML & Polylang compatibility** — All text fields work with WPML and Polylang for multilingual stores
-- **Priority support** — Email and live chat support for Pro customers
-- More features coming soon…
-
-**HuCommerce Knowledge Base**
-
-Full documentation for all modules and Pro activation is available in the [HuCommerce Knowledge Base](https://www.hucommerce.hu/tudasbazis/).
-
-#### Hungarian Name Order (WooCommerce 4.4+)
-
-Reverses the first name / last name field order on the checkout when the store is set to Hungarian. The display is responsive, compatible with WPML, and works correctly in order confirmation emails, the customer account area, and admin order views.
-
-#### Tax Number Field on Checkout
-
-A Tax Number field appears below the Company Name field on the Billing section of the checkout. It is only shown when a company name is entered, making it a required field in that case. The tax number is saved to the order and to the user profile. It appears on order confirmation emails, in the admin order editor, and in customer-facing notifications.
-
-Masking, validation (formats: `00000000-0-00`, `00000000000`, `HU00000000`), and a placeholder can all be enabled independently.
-
-#### Hide State/County Field
-
-The State/County field is not commonly used in Hungary, so this module hides it by default. It can be re-enabled in the plugin settings if needed.
-
-#### Checkout Field Validation
-
-Optionally validate and mask the following fields:
-
-- Billing Tax Number: `00000000-0-00` (13 chars), `00000000000` (11 digits), or `HU00000000` (HU prefix + 8 digits)
-- Billing and Shipping ZIP Code: `0000` (4 digits)
-- Billing Phone: `+36000000000` (11–12 characters)
-
-Each field can be toggled independently.
-
-#### Automatic City Fill from ZIP Code
-
-After a ZIP code is entered on the checkout, the city field is filled in automatically. Manual city edits are respected and will not be overwritten. Some ZIP codes covering multiple settlements may not be supported — these are corrected over time.
-
-#### Translation Fixes
-
-Temporary fixes for missing or incorrect Hungarian translations in WooCommerce and popular themes (Divi, Storefront), applied while official translations are pending. The developer is an official contributor to the Hungarian WooCommerce translation team.
-
-#### Basic Support
-
-Support is available in the [Facebook group](https://www.facebook.com/groups/HuCommerce.hu/) and on the [WordPress.org support forum](https://wordpress.org/support/plugin/surbma-magyar-woocommerce/).
+- Pénztár mezők ellenőrzése
+- Ingyenes szállítás értesítés
+- Kosár ürítése gomb
+- Termék ár történet (új Fogyasztóvédelemi rendelet)
+- Termék ár kiegészítések
+- Jogi megfelelés (Fogyasztóvédelem, GDPR, ePrivacy, stb.)
+- Fizetési módok korlátozása
+- Globális adatok, amiket shortcode-dal lehet bárhol megjeleníteni
+- Kiemelt ügyfélszolgálat és támogatás
+- További funkciók hamarosan…
 
 ---
 
-### Want to learn more about us and our services?
+### 🚀 HuCommerce modulok rövid leírásai:
 
-Visit our website: [HuCommerce.hu →](https://www.hucommerce.hu/)
+- **Vezetéknév és keresztnév rendbetétele** – Név sorrend megfordítása magyar nyelven, WPML kompatibilis.
+- **Adószám bekérése vásárlásnál** – Adószám mező a Pénztár oldalon, a Cégnév kitöltésekor jelenik meg.
+- **Pénztár és Fiók mezők ellenőrzése** – Adószám, irányítószám és telefonszám formai validálása. *(Pro)*
+- **Város automatikus kitöltése** – Város mező kitöltése az irányítószám alapján, több település esetén választási lehetőség.
+- **Fordítások prémium bővítményekhez** – Magyar fordítások több, mint 400 prémium bővítményhez és sablonhoz.
+- **Fordítási hiányosságok javítása** – WooCommerce és sablonok ideiglenes fordítási javításai.
+- **Jogi megfelelés** – ÁSZF és Adatkezelési tájékoztató elfogadtatása, GDPR megfelelés. *(Pro)*
+- **Termék ár történet** – Az EU árcsökkentési rendeletnek való megfelelés biztosítása. *(Pro)*
+- **Pénztár oldal módosítások** – Céges adatok feltételes megjelenítése, mezők testreszabása és elrendezése.
+- **Plusz/mínusz mennyiségi gombok** – Mennyiségi gombok a termék és kosár oldalakon.
+- **Automatikus frissítés a Kosár oldalon** – Mennyiség módosítás után automatikus kosár frissítés.
+- **Egy termék vásárlásonként** – Egy termékre korlátozza a kosarat rendelésenként.
+- **Kosár átirányítása** – Kosár oldal automatikus átirányítása a Pénztár oldalra.
+- **Vásárlás folytatása gomb** – Gomb a Kosár és Pénztár oldalakon a vásárlás folytatásához.
+- **Belépés utáni átirányítás** – Egyedi átirányítás belépés és regisztráció után.
+- **Ingyenes szállítás értesítés** – Értesítés a hiányzó összegről az ingyenes szállításhoz. *(Pro)*
+- **Szállítási módok elrejtése** – Nem releváns szállítási módok elrejtése ingyenes szállítás esetén.
+- **Egyedi “Kosárba teszem” gombok** – Egyedi gomb szövegek terméktípusonként.
+- **Kosár ürítése gomb** – Teljes kosár tartalom törlése egy kattintással. *(Pro)*
+- **Termék ár kiegészítések** – Elő- és utótagok hozzáadása a termékek áraihoz. *(Pro)*
+- **Termék extra beállítások** – Kosárba tesz gomb, alcím, kapcsolódó termékek és egyéb beállítások.
+- **Fizetési módok korlátozása** – Fizetési módok korlátozása vásárlónként. *(Pro)*
+- **SMTP szolgáltatás** – Külső SMTP szolgáltató beállítása a levelezéshez.
+- **Katalógus mód** – Vásárlási funkciók kikapcsolása, katalógus üzemmód.
+
+A modulok részletes leírásait a [HuCommerce weboldalon](https://www.hucommerce.hu/modulok/) találod.
 
 == Installation ==
 
-### Automatic Installation (Recommended)
+### Automatikus telepítés
 
-1. In your WordPress admin go to **Plugins → Add New**.
-2. Search for *HuCommerce | Hungarian WooCommerce Extensions*.
-3. Click **Install Now**, then **Activate**.
-4. Go to **WooCommerce → HuCommerce** to configure which modules you want to use.
-5. That's it! :)
+1. A "Bővítmények -> Új hozzáadása" menüpont alatt keress rá a *HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz* bővítményre.
+2. A bővítmény dobozában kattints a "Telepítés most" gombra.
+3. Telepítés után ugyanebben a dobozban kattints a "Bekapcsol" gombra, hogy aktiváld a *HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz* bővítményt.
+4. A "WooCommerce -> HuCommerce" menüpont alatt állítsd be, hogy melyik modult szeretnéd használni.
+5. Ennyi az egész. :)
 
-### Manual Installation via WordPress Admin
+### Manuális telepítés az admin felületen
 
-1. Download the plugin: [HuCommerce | Hungarian WooCommerce Extensions](https://downloads.wordpress.org/plugin/surbma-magyar-woocommerce.zip)
-2. In your WordPress admin go to **Plugins → Add New → Upload Plugin**.
-3. Upload `surbma-magyar-woocommerce.zip` and activate the plugin.
-4. Go to **WooCommerce → HuCommerce** to configure your modules.
-5. That's it! :)
+1. Töltsd le a bővítményt: [HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz](https://downloads.wordpress.org/plugin/surbma-magyar-woocommerce.zip)
+2. Töltsd fel a `surbma-magyar-woocommerce.zip` fájlt a "Bővítmények -> Új hozzáadása" menüpont alatt a "Bővítmény feltöltése" gombra kattintva.
+3. Aktiváld a *HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz* bővítményt a feltöltés után.
+4. A "WooCommerce -> HuCommerce" menüpont alatt állítsd be, hogy melyik modult szeretnéd használni.
+5. Ennyi az egész. :)
 
-### Manual Installation via FTP
+### Manuális telepítés FTP használatával
 
-1. Download the plugin: [HuCommerce | Hungarian WooCommerce Extensions](https://downloads.wordpress.org/plugin/surbma-magyar-woocommerce.zip)
-2. Unzip the file on your computer.
-3. Upload the `surbma-magyar-woocommerce` folder to `/wp-content/plugins/`.
-4. Activate the plugin under **Plugins** in your WordPress admin.
-5. Go to **WooCommerce → HuCommerce** to configure your modules.
-6. That's it! :)
+1. Töltsd le a bővítményt: [HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz](https://downloads.wordpress.org/plugin/surbma-magyar-woocommerce.zip)
+2. Tömörítsd ki a zip fájlt a számítógépeden.
+3. Töltsd fel a `surbma-magyar-woocommerce` mappát a `/wp-content/plugins/` mappába.
+4. Aktiváld a *HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz* bővítményt a "Bővítmények" menüpont alatt a WordPress admin felületen.
+5. A "WooCommerce -> HuCommerce" menüpont alatt állítsd be, hogy melyik modult szeretnéd használni.
+6. Ennyi az egész. :)
 
 == Frequently Asked Questions ==
 
-= Where do I find the plugin settings? =
+= Hol találom a bővítmény beállításait? =
 
-Plugin settings are located under **WooCommerce → HuCommerce** in your WordPress admin.
+A *HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz* bővítmény beállításait a "WooCommerce -> HuCommerce" menüpont alatt éred el.
 
-= The name order is not reversed on the checkout. =
+= Nem cserélődtek meg a nevek a Pénztár oldalon. =
 
-First, clear your server-side cache and your browser cache, then reload the page. Check whether another plugin is causing a conflict. If you have modified any translations, that could also be the cause. Some themes contain custom code that can override this feature.
+Először töröld a szerver oldali és a böngésző gyorsítótárát és frissítsd az oldalt! Győződj meg róla, hogy esetleg más bővítmény nem okoz-e konfliktust! Ha a fordítást módosítottad, az is lehet probléma. Illetve a sablonok is tartalmazhatnak olyan egyedi kódokat, amivel ez a funkció felülírható.
 
-Note: Name order is only reversed when the store language is set to Hungarian.
+Figyelem! A nevek cseréje csak akkor történik meg, ha magyar nyelvre van állítva a webáruház.
 
-= What does "Surbma" mean? =
+= Hol tudok biztonsági hibákat jelenteni a bővítménnyel kapcsolatban? =
 
-It's the developer's last name spelled backwards. ;)
+A HuCommerce bővítmény forráskódjában talált hibákat a [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/9e5fb7b8-9915-4060-9779-a133aa5e46b2) segítségével tudod jelenteni. A Patchstack csapat segít nekünk a hiba igazolásában, a CVE hozzárendelésében, és értesíti a bővítmény fejlesztőit.
+
+= Where do I report security bugs found in this plugin? =
+
+Please report security bugs found in the source code of the HuCommerce | Magyar kiegészítések WooCommerce webáruházakhoz plugin through the [Patchstack Vulnerability Disclosure  Program](https://patchstack.com/database/vdp/9e5fb7b8-9915-4060-9779-a133aa5e46b2). The Patchstack team will assist you with verification, CVE assignment, and notify the developers of this plugin.
+
+== Külső szolgáltatások ==
+
+A HuCommerce bővítmény a következő külső szolgáltatást használja a támogatáshoz és a dokumentációhoz:
+
+**Help Scout Beacon** (https://beacon-v2.helpscout.net)
+
+- Cél: Admin támogatási widget, hogy az adminisztrátorok hozzáférhessenek a támogatáshoz a WordPress admin felületéről.
+- Futás ideje: Csak a WordPress admin felületén. Nem töltődik be a frontendre vagy a webáruház látogatói számára.
+- Adatok: A Beacon script a Help Scout kiszolgálóiról töltődik be, amikor megnyitod a kapcsolódó admin oldalakat. A szolgáltatás nem igényel fiókot vagy API kulcsot; csak a támogatási widget megjelenítéséhez kell.
+- Adatvédelem: A Help Scout adatkezelésével kapcsolatos részletekért lásd a Help Scout adatvédelmi irányelveit és dokumentációját.
 
 == Changelog ==
 
-= 2026.2.0 =
+#### 2026.2.1
 
-Release date: 2026-03-27
+*Kiadás dátuma: 2026-03-30*
 
-- New: WooCommerce block checkout compatibility. The tax number (adószám) field now appears in the block-based checkout (WooCommerce 8.4+) via the WooCommerce Additional Checkout Fields API.
-- The field value is saved to order meta and customer meta for full backwards compatibility with shortcode-based checkout and the My Account page.
-- Tested with WooCommerce up to 9.4.
+**EGYÉB**
 
-= 2022.1.5 =
+- Véletlen kiadás felülírása.
 
-Release date: 2022-06-01
+#### 2026.1.5
 
-- Fix missing files.
+*Kiadás dátuma: 2026-03-14*
 
-= 2022.1.1 =
+**EGYÉB**
 
-Release date: 2022-06-01
+- Kompatibilitás javítása a Billingo Plus és a Számlázz.hu integráció bővítményekhez.
+- Kompatibilitás ellenőrzése a WooCommerce 10.6 verzióval.
 
-- Fix translations in the admin area.
-- Minor description updates.
+#### 2026.1.4
 
-= 2022.1.0 =
+*Kiadás dátuma: 2026-03-09*
 
-Release date: 2022-05-31
+**FIGYELEM!** A HuCommerce Pro funkciók ideiglenesen ingyenesen elérhetőek ebben a verzióban. Egy hamarosan érkező újabb verzióban ezek a funkciók átkerülnek egy különálló Pro bővítménybe. Így a Pro verzió megvásárlása nélkül a következő verziótól már nem tudod használni ezeket a funkciókat.
 
-- First stable release of HuCommerce and HuCommerce Pro.
-- All changes from versions 2022.0.0.1 through 2022.0.35 included.
+**Adószám megjelenítése**
 
-= 2022.0.35 =
+- "Adószám" mező automatikus mentése a Pénztár oldalon a vendégeknek is. (Köszönöm a jelzést Szalai Bencének)
+- "Adószám" mező kitöltése vendégeknél, ha már módosította a vásárlási folyamat alatt. (Köszönöm a jelzést Szalai Bencének)
 
-Release date: 2022-05-31
+**Pénztár oldal módosítások**
 
-- Fix the monitored period in the Product Price History module to correctly identify the lowest active price in the 30 days prior to a discount.
-- Minor adjustments to module labels on the HuCommerce settings page.
-- Add "Learn More" links to module descriptions on the settings page.
-- Update and expand plugin description.
+- "Céges számlázási adatok feltételes megjelenítése" mező automatikus mentése a Pénztár oldalon bejelentkezett felhasználóknak és vendégeknek egyaránt. (Köszönöm a jelzést Szalai Bencének)
+- "Céges számlázási adatok feltételes megjelenítése" mező kitöltése vendégeknél, ha már módosította a vásárlási folyamat alatt. (Köszönöm a jelzést Szalai Bencének)
 
-= 2022.0.34 =
+**Termék módosítások**
 
-Release date: 2022-05-30
+- Az iThemes Security PHP Execution beállításának a felülírása Apache, Nginx és LiteSpeed szerverekhez is.
 
-- Refine Pro module conditions.
-- Retain Product Price History data when the subscription is inactive.
+**Fordítások prémium bővítményekhez és sablonokhoz**
 
-= 2022.0.33 =
+- Ingyenes lett a modul. :)
+- 394 bővítmény és 9 sablon fordítása lett hozzáadva. (Hatalmas köszönet a HelloWP csapatának!)
+- Szabad szavas szűrő hozzáadása, hogy könnyedén kereshess a fordítások között.
+- A fordításokat mostantól mappákban kezeljük, amelyek a bővítményekhez és sablonokhoz tartoznak.
+- Fordítások tömeges kezelésének az optimalizálása.
 
-Release date: 2022-05-30
+**EGYÉB**
 
-- Add option to hide the "lowest price" text per product on the product page.
+- A HuCommerce adatbázis terhelésének a radikális csökkentése azáltal, hogy csak a módosításokat menti.
+- Dinamikus modul kezelés.
+- Modulok kezelésének az optimalizálása.
+- Kisebb módosítás a modul kártyán.
+- Modul kártyák kódjának az optimalizálása.
+- A PHP függvények és változók egységes elnevezései a teljes kódbázisban.
+- Admin oldalak betöltésének az optimalizálása.
+- Egységesített függvény és változó előtagok bevezetése.
+- Menü kezelésének az optimalizálása.
+- A HuCommerce modul beállítások menüpontjai maradnak az aktív állapoton mentés után.
+- A Vezérlőpult widget kezelés optimalizálása.
+- A user meta törlése a bővítmény törlésekor.
+- Kisebb javítások a kódolási szabványok alapján.
+- Kód optimalizálás a statikus függvények használatával.
+- Konstansok átnevezése, egységesítése.
+- Új konstansok meghatározása.
+- Licensz kezeléshez kapcsolódó konstansok egyszerűsítése, feltételek módosítása.
+- Fájlok és kódok szerkezeti és logikai újrarendezése.
+- Távoli fájlok kezelésének a javítása.
+- A Termék ár történet diagram lecserélése a Google Charts-ról a Chart.js-re.
+- A Termék ár történet diagram kisebb módosítása.
+- Fordítások kezelésének az optimalizálása.
+- Régi változások törlése a readme.txt fájlból.
+- CPS SDK frissítése a 8.16.0 verzióra.
+- Kisebb módosítás a README.md fájlban.
 
-= 2022.0.32 =
-
-Release date: 2022-05-30
-
-- Update CPS SDK to version 8.9.0.
-
-= 2022.0.31 =
-
-Release date: 2022-05-30
-
-- Fix checkout field compatibility with the Oxygen theme.
-
-= 2022.0.30 =
-
-Release date: 2022-05-30
-
-- New module: Product Price History.
-- New badge for modules: Beta.
-- Minor layout fix for the Tax Number display module.
-- Add disclaimer text to several modules.
-
-= 2022.0.20 =
-
-Release date: 2022-05-26
-
-- Update CPS SDK to 8.8.0.
-- Set feed cache to 24 hours.
-- Extend manual API requests to include status retrieval.
-- Add Pro promo to the licence management page.
-- Switch API instance to domain-based binding for easier reactivation.
-- Simplify activation/deactivation flow to two buttons.
-- Add API sync and management links.
-- Fix condition for legacy user notifications.
-- Remove HuCommerce Pro promo banner from the settings page.
-- Add title to the HuCommerce main menu item; remove filters.
-- Simplify newsletter subscription parameters.
-- Full UI redesign for HuCommerce settings.
-
-= 2022.0.19 =
-
-Release date: 2022-05-25
-
-- Disable user capability check in license.php.
-
-= 2022.0.18 =
-
-Release date: 2022-05-24
-
-- Full rewrite of API key management. Status checks are now more reliable and efficient.
-
-= 2022.0.17 =
-
-Release date: 2022-05-24
-
-- Update CPS SDK to 8.7.2.
-
-= 2022.0.16 =
-
-Release date: 2022-05-22
-
-- Update admin notice text and conditions for legacy users.
-- Add daily rate limit for automatic API status checks.
-
-= 2022.0.15 =
-
-Release date: 2022-05-19
-
-- Remove URL parameter after manual API call to prevent conflicts on page reload.
-- Conditionally save instancebackup and licensekeybackup values.
-- Confirmed compatibility with WordPress 6.0.
-
-= 2022.0.14 =
-
-Release date: 2022-05-18
-
-- Rename product ID variable.
-
-= 2022.0.13 =
-
-Release date: 2022-05-18
-
-- Add product_id field to license management for easier testing with different products.
-- Replace hardcoded product_id with a dynamic value.
-- Add placeholder text to licence management fields.
-
-= 2022.0.12 =
-
-Release date: 2022-05-17
-
-- Add per-field toggle to the checkout field format validation module.
-- Add per-field toggle to the checkout field value validation module.
-
-= 2022.0.11 =
-
-Release date: 2022-05-17
-
-- Adjust admin notice text based on licence status.
-
-= 2022.0.10 =
-
-Release date: 2022-05-15
-
-- Adjust Help Scout Beacon conditions to also show for users with expired or invalid licence keys.
-- Remove HuCommerce admin sidebar (no longer needed after the new UI).
-- Refine admin notice conditions and copy.
-- Minor admin widget update.
-- Move licence management to its own file (extracted from /lib/start.php).
-- Clean up /lib/license.php.
-- Add manual API request triggers for activation and deactivation.
-- Set wp_error condition for API calls to prevent fatal errors on failure.
-- Save API response to the database for future use.
-- Add licence status notifications.
-- Rename coupon module file.
-- New: display coupon codes in uppercase in both admin and front-end.
-- Fix auto-update cart module for broader theme compatibility.
-- Expand the Information tab on HuCommerce settings with useful data.
-- Full redesign of the Licence Management tab; handle all conditions and licence states.
-- Show licence details on the Licence Management tab.
-- Add warning text for legacy HuCommerce users when saving modules.
-- Extend validation on module save to cover all fields.
-- Add logic to retain module settings for legacy users and expired licences.
-- Save new brandnewuser flag to determine how long the user has been using HuCommerce.
-- Validate licence-related fields.
-- Make the licence management menu icon dynamic (locked/unlocked based on licence status).
-- Add licence-related notifications to the HuCommerce settings page.
-
-= 2022.0.9 =
-
-Release date: 2022-05-15
-
-- Update CPS SDK to 8.7.1.
-- Minor description update.
-- Add newsletter subscription to the description.
-- Confirmed compatibility with WooCommerce 6.5.
-
-= 2022.0.8 =
-
-Release date: 2022-05-06
-
-- First version of licence management. API requests not yet working, but the licence key can be saved and modules are managed based on validity.
-- Move demo licence management code to license.php.
-- New licence menu.
-- Add licence field validation.
-
-= 2022.0.7 =
-
-Release date: 2022-05-06
-
-- Extend the uninstall routine with additional options.
-
-= 2022.0.6 =
-
-Release date: 2022-05-06
-
-- Update CPS SDK to 8.4.0.
-
-= 2022.0.5 =
-
-Release date: 2022-05-06
-
-- Extract HuCommerce settings menu items into separate files.
-- Reorder social links.
-- Update and expand settings page footer.
-- Remove settings-options.php (no longer needed).
-- Move global settings variables to settings-nav-modules.php.
-
-= 2022.0.4 =
-
-Release date: 2022-04-18
-
-- Extract Modules settings into a separate file.
-- Remove HuCommerce Extensions (postponed).
-- Restore Offers, Catalogue, and News sections.
-- Restructure settings page: each section in its own file.
-
-= 2022.0.3 =
-
-Release date: 2022-04-18
-
-- Minor code optimisation.
-- Full redesign of the HuCommerce settings page: new structure, layout, and menu items.
-- Extract settings page sections into separate files for maintainability.
-- Display new module settings in the new UI.
-
-= 2022.0.2 =
-
-Release date: 2022-04-17
-
-- Remove the farewell message for version 2022.0.0 from the settings page.
-- Confirmed compatibility with WooCommerce 6.4.
-
-= 2022.0.1 =
-
-Release date: 2022-04-17
-
-- Minor code fixes.
-- Confirmed compatibility with WooCommerce 6.3.
-
-= 2022.0.0 =
-
-Release date: 2022-01-01
-
-- Complete rewrite of the plugin (formerly "Surbma | Magyar WooCommerce").
-- New plugin name: HuCommerce | Magyar WooCommerce kiegészítések.
-- Modular structure: enable only the features you need.
-- All previous features preserved and re-implemented as modules.
+[HuCommerce teljes változási napló →](https://www.hucommerce.hu/changelog/)

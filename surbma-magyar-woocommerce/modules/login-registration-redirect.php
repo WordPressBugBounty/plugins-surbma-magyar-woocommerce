@@ -1,11 +1,17 @@
 <?php
 
+/**
+ * Module: Login and registration redirection
+ */
+
 // Prevent direct access to the plugin
 defined( 'ABSPATH' ) || exit;
 
-add_filter( 'woocommerce_login_redirect', function( $redirect, $user ) {
-	$options = get_option( 'surbma_hc_fields' );
-	$loginredirecturlValue = isset( $options['loginredirecturl'] ) ? $options['loginredirecturl'] : wc_get_page_permalink( 'shop' );
+add_filter( 'woocommerce_login_redirect', static function( $redirect, $user ) {
+	// Get the settings array
+	global $cps_hc_gems_options;
+
+	$loginredirecturlValue = $cps_hc_gems_options['loginredirecturl'] ?? wc_get_page_permalink( 'shop' );
 
 	$redirect_page_id = url_to_postid( $redirect );
 	$checkout_page_id = wc_get_page_id( 'checkout' );
@@ -21,9 +27,11 @@ add_filter( 'woocommerce_login_redirect', function( $redirect, $user ) {
 	}
 }, 10, 2 );
 
-add_filter( 'woocommerce_registration_redirect', function( $var ) {
-	$options = get_option( 'surbma_hc_fields' );
-	$registrationredirecturlValue = isset( $options['registrationredirecturl'] ) ? $options['registrationredirecturl'] : wc_get_page_permalink( 'shop' );
+add_filter( 'woocommerce_registration_redirect', static function( $var ) {
+	// Get the settings array
+	global $cps_hc_gems_options;
+
+	$registrationredirecturlValue = $cps_hc_gems_options['registrationredirecturl'] ?? wc_get_page_permalink( 'shop' );
 
 	if ( '' == $registrationredirecturlValue ) {
 		return $var;
