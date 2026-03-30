@@ -1,31 +1,23 @@
 <?php
 
-/**
- * Module: SMTP service
- */
-
-// Prevent direct access to the plugin
-defined( 'ABSPATH' ) || exit;
-
 // Configures WordPress PHPMailer
-add_action( 'phpmailer_init', static function( $phpmailer ) {
-	// Get the settings array
-	global $cps_hc_gems_options;
+add_action( 'phpmailer_init', function( $phpmailer ) {
+	$options = get_option( 'surbma_hc_fields' );
 
 	// SMTP port number - likely to be 25, 465 or 587
-	$smtp_port = $cps_hc_gems_options['smtpport'] ?? 587;
-	// Encryption system to use - ssl, tls, or empty string for no encryption
-	$smtp_secure = $cps_hc_gems_options['smtpsecure'] ?? '';
+	$smtp_port = isset( $options['smtpport'] ) ? $options['smtpport'] : 587;
+	// Encryption system to use - ssl or tls
+	$smtp_secure = isset( $options['smtpsecure'] ) ? $options['smtpsecure'] : 0;
 	// SMTP From email address
-	$smtp_from = $cps_hc_gems_options['smtpfrom'] ?? '';
+	$smtp_from = isset( $options['smtpfrom'] ) ? $options['smtpfrom'] : 0;
 	// SMTP From name
-	$smtp_fromname = $cps_hc_gems_options['smtpfromname'] ?? '';
+	$smtp_fromname = isset( $options['smtpfromname'] ) ? $options['smtpfromname'] : 0;
 	// The hostname of the mail server
-	$smtp_host = $cps_hc_gems_options['smtphost'] ?? '';
+	$smtp_host = isset( $options['smtphost'] ) ? $options['smtphost'] : 0;
 	// Username to use for SMTP authentication
-	$smtp_user = $cps_hc_gems_options['smtpuser'] ?? '';
+	$smtp_user = isset( $options['smtpuser'] ) ? $options['smtpuser'] : 0;
 	// Password to use for SMTP authentication
-	$smtp_password = $cps_hc_gems_options['smtppassword'] ?? '';
+	$smtp_password = isset( $options['smtppassword'] ) ? $options['smtppassword'] : 0;
 
 	if ( $smtp_host && $smtp_user && $smtp_password ) {
 		$phpmailer->isSMTP();
@@ -36,7 +28,9 @@ add_action( 'phpmailer_init', static function( $phpmailer ) {
 
 		// Additional settings
 		$phpmailer->Port = $smtp_port;
-		$phpmailer->SMTPSecure = $smtp_secure;
+		if ( $smtp_secure ) {
+			$phpmailer->SMTPSecure = $smtp_secure;
+		}
 		if ( $smtp_from ) {
 			$phpmailer->From = $smtp_from;
 		}

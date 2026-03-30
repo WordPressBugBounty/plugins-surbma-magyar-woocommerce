@@ -61,8 +61,10 @@ echo '<textarea id="website-informations" class="uk-textarea" cols="50" rows="10
 		navigator.clipboard.writeText(copyText.value);
 
 		/* Alert the copied text */
-		setTimeout(function() {
-			alert("<?php esc_html_e( 'Website informations are copied', 'surbma-magyar-woocommerce' ); ?>");
-		}, 500);
+		// alert("Copied the text: " + copyText.value);
+		UIkit.notification({
+			message: '<?php esc_html_e( "Website informations are copied", "surbma-magyar-woocommerce" ); ?>',
+			pos: 'bottom-center'
+		})
 	}
 </script>

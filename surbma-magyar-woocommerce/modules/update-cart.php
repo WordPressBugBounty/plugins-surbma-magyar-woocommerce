@@ -1,14 +1,10 @@
 <?php
 
-/**
- * Module: Automatic Cart update
- */
-
 // Prevent direct access to the plugin
 defined( 'ABSPATH' ) || exit;
 
 // https://gist.github.com/mikaelz/f41e29c6a99a595602e4
-add_action( 'wp_enqueue_scripts', static function() {
+add_action( 'wp_enqueue_scripts', function() {
 	if ( is_cart() ) {
 		ob_start();
 		?>

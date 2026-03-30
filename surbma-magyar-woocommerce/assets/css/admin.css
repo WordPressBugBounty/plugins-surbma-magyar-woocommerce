@@ -9,16 +9,6 @@
 	box-shadow: none;
 }
 
-.cps-admin #hucommerce-modules .uk-grid > li {
-	width: 100%;
-	max-width: 400px;
-}
-
-.cps-admin #hucommerce-directory .directory-filter > li {
-	width: 100%;
-	max-width: 250px;
-}
-
 /* NEW SETTINGS END */
 
 .cps-admin {
